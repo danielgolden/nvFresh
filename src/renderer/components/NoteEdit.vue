@@ -33,9 +33,9 @@ export default {
 
       // If user types again, restart the timer for saving to the file
       clearTimeout(this.intervalid1)
-      this.todo()
+      this.saveAfterTime()
     },
-    todo: function () {
+    saveAfterTime: function () {
       // The context of `this` is changed inside of setTimeout so you have to
       // do something funky like this:
       const self = this

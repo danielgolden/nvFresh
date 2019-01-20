@@ -52,9 +52,10 @@ const mutations = {
 const actions = {
   // Run both of these so that the input field is always cleard on new note creation
   createNoteandClearInput: ({commit}, payload) => {
-    commit('createNote', payload)
-    commit('saveToFile', payload)
+    commit('createNote')
+    commit('saveToFile')
     commit('clearNoteName')
+    commit('selectNote', payload)
   }
 }
 
@@ -74,4 +75,4 @@ export default {
 // - [ ] add preview of note contents next to name listing
 
 // To Fix:
-// - [ ] Bug where when you create a new new on enter, the first note is selected
+// - [x] Bug where when you create a new note on enter, the first note is selected

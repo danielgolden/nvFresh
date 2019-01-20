@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="note-list-container">
     <ul v-if="filteredNotes.length >= 0">
       <li
         v-for="filteredNote in filteredNotes"
@@ -67,5 +67,13 @@ export default {
 .active {
   font-weight: bold;
   color: blue;
+}
+
+.note-list-container {
+  box-sizing: border-box;
+  margin: 10px 0;
+  height: 200px;
+  line-height: 24px;
+  overflow: scroll;
 }
 </style>
