@@ -1,9 +1,6 @@
 <template>
   <div id="app">
-    <!-- <p>{{this.$store.state.Notes}}</p> -->
-    <search />
-
-    <button @click="saveAFile">Save A File</button>
+    <search @newNoteSaved="focusNoteEdit()" />
 
     <hr>
 
@@ -20,7 +17,6 @@
   import Search from '@/components/Search'
   import NoteList from '@/components/NoteList'
   import NoteEdit from '@/components/NoteEdit'
-  // import { remote } from 'electron'
 
 export default {
     data () {
@@ -36,9 +32,8 @@ export default {
       NoteEdit
     },
     methods: {
-      saveAFile: function () {
-        // remote.app.setPath('jones.txt', 'userData')
-        // console.log(remote.app.getPath('desktop'))
+      focusNoteEdit: function () {
+        this.$children[2].$el.focus()
       }
     }
 }

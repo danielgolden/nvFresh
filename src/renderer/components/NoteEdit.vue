@@ -29,6 +29,18 @@ export default {
   methods: {
     updateNoteContents: function (e) {
       this.$store.commit('updateNoteContents', e.target.value)
+
+      // If user types again, restart the timer for saving to the file
+      clearTimeout(this.intervalid1)
+      this.todo()
+    },
+    todo: function () {
+      // The context of `this` is changed inside of setTimeout so you have to
+      // do something funky like this:
+      const self = this
+      this.intervalid1 = setTimeout(function () {
+        self.$store.commit('saveToFile')
+      }, 500)
     }
   }
 }

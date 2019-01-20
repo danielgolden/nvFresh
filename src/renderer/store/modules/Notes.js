@@ -17,9 +17,10 @@ const mutations = {
     state.notes.push({
       id: newNoteID,
       name: state.newNoteName,
-      content: ''
+      contents: ''
     })
-
+  },
+  saveToFile: function (state) {
     // Turn the state into a string with decent formatting
     const notes = JSON.stringify(state, null, 2)
 
@@ -28,7 +29,7 @@ const mutations = {
 
     // Do this when the json file has been rewritten
     function finished () {
-      console.log('store succesfully updated')
+      console.log('note saved')
     }
   },
   selectNote: function (state, id) {
@@ -37,15 +38,20 @@ const mutations = {
   updateNoteName (state, noteName) {
     state.newNoteName = noteName
   },
+  clearNoteName (state) {
+    state.newNoteName = ''
+  },
   updateNoteContents (state, newContents) {
     state.notes[state.selectedNoteID].contents = newContents
   }
 }
 
 const actions = {
-  someAsyncTask ({ commit }) {
-    // do something async
-    commit('INCREMENT_MAIN_COUNTER')
+  // Run both of these so that the input field is always cleard on new note creation
+  createNoteandClearInput: ({commit}, payload) => {
+    commit('createNote', payload)
+    commit('saveToFile')
+    commit('clearNoteName')
   }
 }
 

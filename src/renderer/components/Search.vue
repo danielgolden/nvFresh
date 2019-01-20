@@ -5,13 +5,15 @@
       placeholder="new note name"
       :value="newNoteName"
       @input="updateNoteName"
-      v-on:keyup.enter="createNote"
+      @keyup.enter="createNote"
+      v-shortkey.focus="['meta', 'l']"
     />
     <!-- <button @click="createNote">Create New Note</button> -->
   </div>
 </template>
 
 <script>
+
 export default {
   data () {
     return {}
@@ -29,7 +31,9 @@ export default {
   },
   methods: {
     createNote: function () {
-      this.$store.commit('createNote')
+      this.$store.dispatch('createNoteandClearInput')
+      this.$emit('newNoteSaved')
+      this.$store.commit('selectNote', this.$store.state.Notes.notes.length - 1)
     },
     updateNoteName: function (e) {
       this.$store.commit('updateNoteName', e.target.value)
