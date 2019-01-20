@@ -17,7 +17,8 @@ const mutations = {
     state.notes.push({
       id: newNoteID,
       name: state.newNoteName,
-      contents: ''
+      contents: '',
+      dateCreated: new Date()
     })
   },
   saveToFile: function (state) {
@@ -60,3 +61,12 @@ export default {
   mutations,
   actions
 }
+
+// Todo:
+// - [x] Add date created to newly saved notes
+// - Add date modified to newly saved notes
+// - Allow for sorting by date
+// - delete note on keyboard shortcut of command delete
+// - Mabye: allow for deleting multiple notes at once with shift click selection
+// - Move the json file to it's proper home
+// - add preview of note contents next to name listing
