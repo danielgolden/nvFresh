@@ -18,7 +18,8 @@ const mutations = {
       id: newNoteID,
       name: state.newNoteName,
       contents: '',
-      dateCreated: new Date()
+      dateCreated: new Date(),
+      dateLastModified: new Date()
     })
   },
   saveToFile: function (state) {
@@ -42,8 +43,9 @@ const mutations = {
   clearNoteName (state) {
     state.newNoteName = ''
   },
-  updateNoteContents (state, newContents) {
-    state.notes[state.selectedNoteID].contents = newContents
+  updateNoteContents (state, payload) {
+    state.notes[state.selectedNoteID].contents = payload.contents
+    state.notes[state.selectedNoteID].dateLastModified = payload.dateModified
   }
 }
 
@@ -51,7 +53,7 @@ const actions = {
   // Run both of these so that the input field is always cleard on new note creation
   createNoteandClearInput: ({commit}, payload) => {
     commit('createNote', payload)
-    commit('saveToFile')
+    commit('saveToFile', payload)
     commit('clearNoteName')
   }
 }
@@ -64,9 +66,12 @@ export default {
 
 // Todo:
 // - [x] Add date created to newly saved notes
-// - Add date modified to newly saved notes
-// - Allow for sorting by date
-// - delete note on keyboard shortcut of command delete
-// - Mabye: allow for deleting multiple notes at once with shift click selection
-// - Move the json file to it's proper home
-// - add preview of note contents next to name listing
+// - [x] Add date modified to newly saved & modified notes
+// - [ ] Allow for sorting by date
+// - [ ] delete note on keyboard shortcut of command delete
+// - [ ] Mabye: allow for deleting multiple notes at once with shift click selection
+// - [ ] Move the json file to it's proper home
+// - [ ] add preview of note contents next to name listing
+
+// To Fix:
+// - [ ] Bug where when you create a new new on enter, the first note is selected

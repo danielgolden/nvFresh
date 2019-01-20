@@ -28,7 +28,8 @@ export default {
   },
   methods: {
     updateNoteContents: function (e) {
-      this.$store.commit('updateNoteContents', e.target.value)
+      let payload = {'contents': e.target.value, 'dateModified': new Date()}
+      this.$store.commit('updateNoteContents', payload)
 
       // If user types again, restart the timer for saving to the file
       clearTimeout(this.intervalid1)
