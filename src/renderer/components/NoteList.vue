@@ -1,5 +1,5 @@
 <template>
-  <div class="note-list-container">
+  <div class="note-list-container" v-shortkey="['meta', 'd']" @shortkey="deleteNote(selectedNoteID)">
     <ul v-if="filteredNotes.length >= 0">
       <li
         v-for="filteredNote in filteredNotes"
@@ -51,6 +51,9 @@ export default {
   methods: {
     selectNote: function (id) {
       this.$store.commit('selectNote', id)
+    },
+    deleteNote: function (id) {
+      this.$store.dispatch('deleteNoteAndSelectNew', id)
     }
   },
   watch: {

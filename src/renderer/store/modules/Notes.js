@@ -11,7 +11,7 @@ const state = JSON.parse(data)
 
 const mutations = {
   createNote: function (state) {
-    let newNoteID = state.notes.length
+    let newNoteID = Math.floor(Math.random() * 10000000)
 
     // Update the state
     state.notes.push({
@@ -44,8 +44,11 @@ const mutations = {
     state.newNoteName = ''
   },
   updateNoteContents (state, payload) {
-    state.notes[state.selectedNoteID].contents = payload.contents
-    state.notes[state.selectedNoteID].dateLastModified = payload.dateModified
+    state.notes[state.notes.findIndex(function (note) { return note.id === state.selectedNoteID })].contents = payload.contents
+    state.notes[state.notes.findIndex(function (note) { return note.id === state.selectedNoteID })].dateLastModified = payload.dateModified
+  },
+  deleteNote (state, payload) {
+    state.notes.splice(state.notes.findIndex(function (note) { return note.id === payload }), 1)
   }
 }
 
@@ -55,7 +58,14 @@ const actions = {
     commit('createNote')
     commit('saveToFile')
     commit('clearNoteName')
-    commit('selectNote', payload)
+    debugger
+    commit('selectNote', state.notes[state.notes.length - 1].id)
+  },
+  deleteNoteAndSelectNew: ({commit}, payload) => {
+    debugger
+    commit('deleteNote', payload)
+    commit('selectNote', state.notes[0].id)
+    commit('saveToFile')
   }
 }
 
@@ -69,7 +79,7 @@ export default {
 // - [x] Add date created to newly saved notes
 // - [x] Add date modified to newly saved & modified notes
 // - [ ] Allow for sorting by date
-// - [ ] delete note on keyboard shortcut of command delete
+// - [x] delete note on keyboard shortcut of command delete
 // - [ ] Mabye: allow for deleting multiple notes at once with shift click selection
 // - [ ] Move the json file to it's proper home
 // - [ ] add preview of note contents next to name listing

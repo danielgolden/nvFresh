@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     createNote: function () {
-      this.$store.dispatch('createNoteandClearInput', this.notes.length)
+      this.$store.dispatch('createNoteandClearInput')
       this.$emit('newNoteSaved')
     },
     updateNoteName: function (e) {
