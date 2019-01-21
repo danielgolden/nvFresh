@@ -49,6 +49,7 @@ textarea {
   width: 100%;
   position: absolute;
   top: 207px;
+  line-height: 25px;
   bottom: 0;
   padding: 15px;
   font-size: 18px;

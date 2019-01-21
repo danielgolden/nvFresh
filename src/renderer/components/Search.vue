@@ -100,6 +100,17 @@ input {
 
 .close {
   background-color: #FF6159;
+  box-shadow: inset 0 0 0 1px rgba(196, 71, 64, .4);
+}
+
+.minimize {
+  background-color: #FFBD2E;
+  box-shadow: inset 0 0 0 1px rgba(204, 150, 34, .4);
+}
+
+.maximize {
+  background-color: #25C539;
+  box-shadow: inset 0 0 0 1px rgba(26, 146, 42, .4);
 }
 
 </style>
