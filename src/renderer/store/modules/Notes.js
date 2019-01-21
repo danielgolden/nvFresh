@@ -4,7 +4,7 @@ import { remote } from 'electron'
 const fs = require('fs')
 
 // assign the path of the json file that holds our store to a variable
-const data = fs.readFileSync(remote.app.getPath('desktop') + '/notes.json')
+const data = fs.readFileSync(remote.app.getPath('userData') + '/notes.json')
 
 // Parse the json data into an object
 const state = JSON.parse(data)
@@ -27,7 +27,7 @@ const mutations = {
     const notes = JSON.stringify(state, null, 2)
 
     // Rewrite the json file that holds our state with the latest store from vue x
-    fs.writeFile(remote.app.getPath('desktop') + '/notes.json', notes, finished)
+    fs.writeFile(remote.app.getPath('userData') + '/notes.json', notes, finished)
 
     // Do this when the json file has been rewritten
     function finished () {
@@ -56,13 +56,14 @@ const actions = {
   // Run both of these so that the input field is always cleard on new note creation
   createNoteandClearInput: ({commit}, payload) => {
     commit('createNote')
+    commit('updateNoteName', '')
     commit('saveToFile')
     commit('clearNoteName')
-    debugger
-    commit('selectNote', state.notes[state.notes.length - 1].id)
+    setTimeout(function () {
+      commit('selectNote', state.notes[state.notes.length - 1].id)
+    }, 10)
   },
   deleteNoteAndSelectNew: ({commit}, payload) => {
-    debugger
     commit('deleteNote', payload)
     commit('selectNote', state.notes[0].id)
     commit('saveToFile')
