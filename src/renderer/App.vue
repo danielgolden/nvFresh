@@ -2,11 +2,9 @@
   <div id="app">
     <search @newNoteSaved="focusNoteEdit()" />
 
-    <hr>
 
     <NoteList />
 
-    <hr>
 
     <NoteEdit />
   </div>

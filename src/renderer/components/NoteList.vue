@@ -67,16 +67,22 @@ export default {
 </script>
 
 <style scoped lang="scss">
+
 .active {
-  font-weight: bold;
-  color: blue;
+  color: #fff;
+  background-color: rgb(69, 107, 190);
 }
 
 .note-list-container {
   box-sizing: border-box;
-  margin: 10px 0;
-  height: 200px;
-  line-height: 24px;
+  margin: 0;
+  height: 150px;
+  font-size: 13px;
+  line-height: 21px;
   overflow: scroll;
+
+  li {
+    padding-left: 10px;
+  }
 }
 </style>

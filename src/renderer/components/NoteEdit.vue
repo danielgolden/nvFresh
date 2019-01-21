@@ -1,9 +1,5 @@
 <template>
   <textarea
-    name=""
-    id=""
-    cols="30"
-    rows="10"
     ref="noteContent"
     :value="notes[notes.findIndex(function(note) {return note.id === selectedNoteID})].contents"
     @input="updateNoteContents"
@@ -47,4 +43,21 @@ export default {
 }
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+textarea {
+  display: block;
+  width: 100%;
+  position: absolute;
+  top: 207px;
+  bottom: 0;
+  padding: 15px;
+  font-size: 18px;
+  color: #222;
+  border: none;
+  border-top: 5px solid rgba(0,0,0, .1);
+
+  &:focus {
+    outline: none;
+  }
+}
+</style>
