@@ -26,6 +26,9 @@ function createWindow () {
     width: 580
   })
 
+  // Display devtools in production incase you need to debug
+  // mainWindow.webContents.openDevTools()
+
   mainWindow.loadURL(winURL)
 
   mainWindow.on('closed', () => {

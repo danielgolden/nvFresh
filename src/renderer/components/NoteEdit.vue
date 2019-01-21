@@ -49,13 +49,13 @@ textarea {
   width: 100%;
   position: absolute;
   top: 207px;
-  line-height: 25px;
+  line-height: 23px;
   bottom: 0;
   padding: 15px;
-  font-size: 18px;
+  font-size: 16px;
   color: #222;
   border: none;
-  border-top: 5px solid rgba(0,0,0, .1);
+  border-top: 5px solid rgba(0,0,0, .125);
 
   &:focus {
     outline: none;

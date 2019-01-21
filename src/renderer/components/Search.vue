@@ -59,19 +59,19 @@ export default {
 .container {
   display: flex;
   box-sizing: border-box;
-  padding: 10px;
-  background-color: rgba(0,0,0, .1);
-  box-shadow: 0 1px 0 rgba(0,0,0, .2);
+  padding: 10px 10px 9px;
+  background-image: linear-gradient(rgba(0,0,0, .1), rgba(0,0,0, .2));
+  box-shadow: 0 1px 0 rgba(0,0,0, .3);
   -ms-overflow-style: scrollbar;
   -webkit-app-region:drag;
 }
 
 input {
   width: 100%;
-  height: 40px;
+  height: 35px;
   border-radius: 5px;
   font-size: 16px;
-  box-shadow: inset 0 0 0 1px rgba(0,0,0, .25);
+  box-shadow: inset 0 0 0 1px rgba(0,0,0, .25), 0 1px 0 rgba(255,255,255, .2);
   border: none;
   padding: 10px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -79,14 +79,14 @@ input {
 
   &:focus {
     outline: none;
-    box-shadow: inset 0 0 0 2px rgba(0,0,0, .4);
+    box-shadow: inset 0 0 0 1px rgba(0,0,0, .4), 0 1px 0 rgba(255,255,255, .3);
   }
 }
 
 .traffic-lights {
   display: flex;
   position: relative;
-  top: 15px;
+  top: 13px;
   margin: 0 5px 0 3px;
 }
 
@@ -100,17 +100,20 @@ input {
 
 .close {
   background-color: #FF6159;
-  box-shadow: inset 0 0 0 1px rgba(196, 71, 64, .4);
+  box-shadow: inset 0 0 0 1px rgba(196, 71, 64, .5);
 }
 
 .minimize {
   background-color: #FFBD2E;
-  box-shadow: inset 0 0 0 1px rgba(204, 150, 34, .4);
+  box-shadow: inset 0 0 0 1px rgba(204, 150, 34, .5);
 }
 
 .maximize {
   background-color: #25C539;
-  box-shadow: inset 0 0 0 1px rgba(26, 146, 42, .4);
+  box-shadow: inset 0 0 0 1px rgba(26, 146, 42, .5);
 }
 
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: rgba(0,0,0, .3);
+}
 </style>

@@ -76,13 +76,19 @@ export default {
 .note-list-container {
   box-sizing: border-box;
   margin: 0;
+  padding-top: 5px;
   height: 150px;
   font-size: 13px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   line-height: 21px;
   overflow: scroll;
 
   li {
     padding-left: 10px;
+
+    &:hover {
+      cursor: default;
+    }
   }
 }
 </style>
