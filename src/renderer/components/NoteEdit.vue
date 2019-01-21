@@ -5,7 +5,7 @@
     cols="30"
     rows="10"
     ref="noteContent"
-    :value="notes[selectedNoteID].contents"
+    :value="notes[notes.findIndex(function(note) {return note.id === selectedNoteID})].contents"
     @input="updateNoteContents"
   ></textarea>
 </template>
