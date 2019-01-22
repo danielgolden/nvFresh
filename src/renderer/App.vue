@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class="{'md-preview-active': mdPreviewLive}" v-shortkey="['meta', 'shift', 'p']" @shortkey="mdPreviewLive = !mdPreviewLive">
+  <div id="app" :class="{'md-preview-active': mdPreviewLive}" v-shortkey="['meta', 'shift', 'p']" @shortkey="handleMdPreview()">
     <div class="primary-section">
       <search @newNoteSaved="focusNoteEdit()" />
 
@@ -48,8 +48,25 @@ export default {
       focusNoteEdit: function () {
         this.$children[2].$el.focus()
       },
-      bless: function () {
-        console.log('bless up')
+      handleMdPreview: function () {
+        let currentWindowSize
+        let currentWindowPosition
+
+        if (this.mdPreviewLive) {
+          this.mdPreviewLive = false
+          currentWindowSize = require('electron').remote.getCurrentWindow().getSize()
+          currentWindowPosition = require('electron').remote.getCurrentWindow().getPosition()
+          require('electron').remote.getCurrentWindow().setSize(currentWindowSize[0] / 2, currentWindowSize[1])
+          require('electron').remote.getCurrentWindow().setPosition(currentWindowPosition[0] + currentWindowSize[0] / 4, currentWindowPosition[1])
+        } else {
+          this.mdPreviewLive = true
+          currentWindowSize = require('electron').remote.getCurrentWindow().getSize()
+          currentWindowPosition = require('electron').remote.getCurrentWindow().getPosition()
+          require('electron').remote.getCurrentWindow().setSize(currentWindowSize[0] * 2, currentWindowSize[1])
+          setTimeout(function () {
+            require('electron').remote.getCurrentWindow().setPosition(currentWindowPosition[0] - currentWindowSize[0] / 2, currentWindowPosition[1])
+          }, 1)
+        }
       }
     }
 }
