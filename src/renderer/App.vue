@@ -65,7 +65,7 @@ export default {
           require('electron').remote.getCurrentWindow().setSize(currentWindowSize[0] * 2, currentWindowSize[1])
           setTimeout(function () {
             require('electron').remote.getCurrentWindow().setPosition(currentWindowPosition[0] - currentWindowSize[0] / 2, currentWindowPosition[1])
-          }, 1)
+          }, 5)
         }
       }
     }
