@@ -11,6 +11,9 @@
 - [x] Add markdown preview and highlighting
 - [x] Configure menu bar option (file, preferences, etc.)
 - [ ] Enable spell check inside of the edit `textarea`
+- [ ] Add note title to the top of the markdown preview in an `<h1>`
+- [ ] Add in-note search via command-f
+- [ ] Allow for note-list navigation via the arrow keys
 
 ## Bugs to fix:
 - [x] Bug where when you create a new note on enter, the first note is selected

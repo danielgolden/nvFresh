@@ -10,8 +10,10 @@
       placeholder="Search or Create"
       :value="newNoteName"
       @input="updateNoteName"
+      ref="searchInput"
       @keyup.enter="createNote"
-      v-shortkey.focus="['meta', 'l']"
+      v-shortkey="['meta', 'l']"
+      @shortkey="selectQuery()"
     />
     <!-- <button @click="createNote">Create New Note</button> -->
   </div>
@@ -50,6 +52,9 @@ export default {
     },
     maximizeWindow: function () {
       require('electron').remote.getCurrentWindow().setFullScreen(true)
+    },
+    selectQuery: function () {
+      this.$refs['searchInput'].select()
     }
   }
 }
