@@ -1,4 +1,21 @@
-# nv-fresh-electron
+// ### Features:
+// - [x] Add date created to newly saved notes
+// - [x] Add date modified to newly saved & modified notes
+// - [ ] add preview of note contents next to name listing
+// - [ ] Allow for sorting by date
+// - [x] delete note on keyboard shortcut of command delete
+// - [ ] Mabye: allow for deleting multiple notes at once with shift click selection
+// - [x] Move the json file to it's proper home
+// - [ ] add ability to rename notes
+// - [x] Add markdown preview and highlighting
+//
+// ### Bugs to fix:
+// - [x] Bug where when you create a new note on enter, the first note is selected
+
+
+---
+
+# nvFresh
 
 > An electron-vue project
 
