@@ -56,6 +56,7 @@ export default {
     handleShortcuts: function (e, id) {
       let currentNoteId = this.selectedNoteID
       switch (event.srcKey) {
+        // up arrow key
         case 'up':
           if (this.$store.state.Notes.doesQueryHaveMatch) {
             let prevNoteId = this.filteredNotes[this.filteredNotes.findIndex(function (note) { return note.id === currentNoteId }) - 1].id
@@ -69,6 +70,7 @@ export default {
             }
           }
           break
+        // down arrow key
         case 'down':
           if (this.$store.state.Notes.doesQueryHaveMatch) {
             let nextNoteId = this.filteredNotes[this.filteredNotes.findIndex(function (note) { return note.id === currentNoteId }) + 1].id
@@ -82,8 +84,11 @@ export default {
             }
           }
           break
+        // command + d for delete
         case 'delete':
-          this.$store.dispatch('deleteNoteAndSelectNew', id)
+          if (window.confirm('You are about to delete the note "' + this.notes[this.notes.findIndex(function (note) { return note.id === currentNoteId })].name + '"!')) {
+            this.$store.dispatch('deleteNoteAndSelectNew', this.selectedNoteID)
+          }
           break
       }
     }
