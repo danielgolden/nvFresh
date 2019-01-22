@@ -1,5 +1,5 @@
 <template>
-  <div class="note-list-container" v-shortkey="['meta', 'd']" @shortkey="deleteNote(selectedNoteID)">
+  <div class="note-list-container" v-shortkey="{up: ['arrowup'], down: ['arrowdown'], delete: ['meta', 'd']}" @shortkey="handleShortcuts(selectedNoteID)">
     <ul v-if="filteredNotes.length >= 0">
       <li
         v-for="filteredNote in filteredNotes"
@@ -53,8 +53,25 @@ export default {
     selectNote: function (id) {
       this.$store.commit('selectNote', id)
     },
-    deleteNote: function (id) {
-      this.$store.dispatch('deleteNoteAndSelectNew', id)
+    handleShortcuts: function (e, id) {
+      let currentNoteId = this.selectedNoteID
+      switch (event.srcKey) {
+        case 'up':
+          let prevNoteId = this.notes[this.notes.findIndex(function (note) { return note.id === currentNoteId }) - 1].id
+          if (prevNoteId) {
+            this.selectNote(prevNoteId)
+          }
+          break
+        case 'down':
+          let nextNoteId = this.notes[this.notes.findIndex(function (note) { return note.id === currentNoteId }) + 1].id
+          if (nextNoteId) {
+            this.selectNote(nextNoteId)
+          }
+          break
+        case 'delete':
+          this.$store.dispatch('deleteNoteAndSelectNew', id)
+          break
+      }
     }
   },
   watch: {
