@@ -1,15 +1,21 @@
-### Features:
+## Todo:
 - [x] Add date created to newly saved notes
 - [x] Add date modified to newly saved & modified notes
 - [ ] add preview of note contents next to name listing
+- [x] search the contents of a note in addition to the titles
 - [ ] Allow for sorting by date
 - [x] delete note on keyboard shortcut of command delete
 - [ ] Mabye: allow for deleting multiple notes at once with shift click selection
 - [x] Move the json file to it's proper home
 - [ ] add ability to rename notes
 - [x] Add markdown preview and highlighting
-### Bugs to fix:
+- [x] Configure menu bar option (file, preferences, etc.)
+- [ ] Enable spell check inside of the edit `textarea`
+
+## Bugs to fix:
 - [x] Bug where when you create a new note on enter, the first note is selected
+- [x] You can't use the command key to make selections or stuff like that. Why?
+- [ ] Open all new links in the primary browser instead of inside of this electron browser window.
 
 
 ---
