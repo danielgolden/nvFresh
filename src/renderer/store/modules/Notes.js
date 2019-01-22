@@ -40,6 +40,9 @@ const mutations = {
   updateNoteName (state, noteName) {
     state.newNoteName = noteName
   },
+  doesQueryHaveMatch (state, binary) {
+    state.doesQueryHaveMatch = binary
+  },
   clearNoteName (state) {
     state.newNoteName = ''
   },

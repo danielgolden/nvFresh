@@ -57,15 +57,29 @@ export default {
       let currentNoteId = this.selectedNoteID
       switch (event.srcKey) {
         case 'up':
-          let prevNoteId = this.notes[this.notes.findIndex(function (note) { return note.id === currentNoteId }) - 1].id
-          if (prevNoteId) {
-            this.selectNote(prevNoteId)
+          if (this.$store.state.Notes.doesQueryHaveMatch) {
+            let prevNoteId = this.filteredNotes[this.filteredNotes.findIndex(function (note) { return note.id === currentNoteId }) - 1].id
+            if (prevNoteId) {
+              this.selectNote(prevNoteId)
+            }
+          } else {
+            let prevNoteId = this.notes[this.notes.findIndex(function (note) { return note.id === currentNoteId }) - 1].id
+            if (prevNoteId) {
+              this.selectNote(prevNoteId)
+            }
           }
           break
         case 'down':
-          let nextNoteId = this.notes[this.notes.findIndex(function (note) { return note.id === currentNoteId }) + 1].id
-          if (nextNoteId) {
-            this.selectNote(nextNoteId)
+          if (this.$store.state.Notes.doesQueryHaveMatch) {
+            let nextNoteId = this.filteredNotes[this.filteredNotes.findIndex(function (note) { return note.id === currentNoteId }) + 1].id
+            if (nextNoteId) {
+              this.selectNote(nextNoteId)
+            }
+          } else {
+            let nextNoteId = this.notes[this.notes.findIndex(function (note) { return note.id === currentNoteId }) + 1].id
+            if (nextNoteId) {
+              this.selectNote(nextNoteId)
+            }
           }
           break
         case 'delete':

@@ -43,6 +43,21 @@ export default {
     },
     updateNoteName: function (e) {
       this.$store.commit('updateNoteName', e.target.value)
+
+      // todo: you should store filteredNotes in the state. Because it's
+      // also used in notelist.vue
+      let filteredNotes = this.notes.filter(note => {
+        let nameAndContents = note.name + note.contents
+        return nameAndContents
+          .toLowerCase()
+          .includes(this.newNoteName.toLowerCase())
+      })
+
+      if (filteredNotes.length > 0) {
+        this.$store.commit('doesQueryHaveMatch', true)
+      } else {
+        this.$store.commit('doesQueryHaveMatch', false)
+      }
     },
     closeWindow: function () {
       require('electron').remote.getCurrentWindow().close()
