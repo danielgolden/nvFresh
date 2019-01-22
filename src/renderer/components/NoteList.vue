@@ -41,8 +41,9 @@ export default {
       return this.$store.state.Notes.newNoteName
     },
     filteredNotes () {
-      return this.notes.filter(notes => {
-        return notes.name
+      return this.notes.filter(note => {
+        let nameAndContents = note.name + note.contents
+        return nameAndContents
           .toLowerCase()
           .includes(this.newNoteName.toLowerCase())
       })
