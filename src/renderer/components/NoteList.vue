@@ -71,10 +71,9 @@ export default {
       let options = {year: 'numeric', month: 'short', day: 'numeric'}
       let todayFormatted = today.toLocaleDateString('en-US', options)
       if (date.includes(todayFormatted)) {
-        // return 'Today at ' + date.substring(14, 24)
-        return date.substring(0, 12) + ' at ' + date.substring(13, 18) + date.substring(21, 25)
+        return 'Today at ' + date.substring(13, 18) + date.substring(21, 25)
       } else {
-        return date.substring(0, 12) + ' at ' + date.substring(14, 20)
+        return date.substring(0, 12) + ' at ' + date.substring(13, 18) + date.substring(21, 25)
       }
     }
   },
