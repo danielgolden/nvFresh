@@ -11,9 +11,10 @@ const data = fs.readFileSync(remote.app.getPath('userData') + '/notes.json')
 const state = JSON.parse(data)
 
 const getters = {
+
   notesByDateModified: state => {
     return state.notes.concat().sort(function (a, b) {
-      return Vue.prototype.$moment(a.dateLastModified).isBefore(b.dateLastModified)
+      return Date.parse(b.dateLastModified) - Date.parse(a.dateLastModified)
     })
   }
 }
