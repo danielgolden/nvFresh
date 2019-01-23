@@ -4,22 +4,22 @@
       <option
         v-for="filteredNote in filteredNotes"
         :key="filteredNote.id"
-        :value="filteredNote.name"
+        :value="shortName(filteredNote.name)"
         :data-date-modified="prettyDateModified(filteredNote.dateLastModified)"
         :class="{ active: selectedNoteID === filteredNote.id }"
       >
-        {{ filteredNote.name }}
+        {{ shortName(filteredNote.name) }}
       </option>
     </select>
     <select size="7" ref="noteList" v-if="filteredNotes.length <= 0" @input="selectNote(notes[$refs.noteList.selectedIndex].id)">
       <option
         v-for="note in notesByDateModified"
         :key="note.id"
-        :value="note.name"
+        :value="shortName(note.name)"
         :data-date-modified="prettyDateModified(note.dateLastModified)"
         :class="{ active: selectedNoteID === note.id }"
       >
-        {{ note.name }}
+        {{ shortName(note.name) }}
       </option>
     </select>
   </div>
@@ -92,6 +92,13 @@ export default {
         return this.$moment(date).format('[Today at] hh:mm A')
       } else {
         return this.$moment(date).format('MMM DD, YYYY [at] hh:mm A')
+      }
+    },
+    shortName (fullName) {
+      if (fullName.length > 50) {
+        return fullName.substring(0, 50) + '...'
+      } else {
+        return fullName
       }
     }
   },

@@ -41,12 +41,15 @@ export default {
       this.$store.dispatch('createNoteandClearInput')
       this.$emit('newNoteSaved')
     },
+    notesByDateModified () {
+      return this.$store.getters.notesByDateModified
+    },
     updateNoteName: function (e) {
       this.$store.commit('updateNoteName', e.target.value)
 
       // todo: you should store filteredNotes in the state. Because it's
       // also used in notelist.vue
-      let filteredNotes = this.notes.filter(note => {
+      let filteredNotes = this.notesByDateModified().filter(note => {
         let nameAndContents = note.name + note.contents
         return nameAndContents
           .toLowerCase()
