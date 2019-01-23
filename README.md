@@ -1,3 +1,7 @@
+#### A quick preview with some sample notes
+
+![sup](https://user-images.githubusercontent.com/812989/51639465-f4f27d80-1f2e-11e9-9270-e5085b24556d.png)
+
 ## Todo:
 - [x] Add date created to newly saved notes
 - [x] Add date modified to newly saved & modified notes
