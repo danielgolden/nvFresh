@@ -1,6 +1,6 @@
 <template>
   <div class="note-list-container" v-shortkey="['meta', 'd']" @shortkey="deleteNote(selectedNoteID)">
-    <select size="7" ref="filteredNoteList" v-if="filteredNotes.length >= 0" @input="selectNote(filteredNotes[$refs.filteredNoteList.selectedIndex].id)">
+    <select size="7" ref="filteredNoteList" v-if="filteredNotes.length > 0" @input="selectNote(filteredNotes[$refs.filteredNoteList.selectedIndex].id)">
       <option
         v-for="filteredNote in filteredNotes"
         :key="filteredNote.id"
@@ -11,7 +11,7 @@
         {{ filteredNote.name }}
       </option>
     </select>
-    <select size="10" ref="noteList" v-if="filteredNotes.length <= 0" @input="selectNote(notes[$refs.noteList.selectedIndex].id)">
+    <select size="7" ref="noteList" v-if="filteredNotes.length <= 0" @input="selectNote(notes[$refs.noteList.selectedIndex].id)">
       <option
         v-for="note in notesByDateModified"
         :key="note.id"
