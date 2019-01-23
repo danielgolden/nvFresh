@@ -25,7 +25,11 @@ export default {
   },
   methods: {
     updateNoteContents: function (e) {
-      let payload = {'contents': e.target.value, 'dateModified': new Date()}
+      let dateModified = new Date()
+      let options = { year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }
+      let dateModifiedFormatted = dateModified.toLocaleDateString('en-US', options)
+
+      let payload = {'contents': e.target.value, 'dateModified': dateModifiedFormatted}
       this.$store.commit('updateNoteContents', payload)
 
       // If user types again, restart the timer for saving to the file

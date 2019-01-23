@@ -5,7 +5,7 @@
         v-for="filteredNote in filteredNotes"
         :key="filteredNote.id"
         :value="filteredNote.name"
-        :data-note-id="filteredNote.id"
+        :data-date-modified="isDateToday(filteredNote.dateLastModified)"
         :class="{ active: selectedNoteID === filteredNote.id }"
       >
         {{ filteredNote.name }}
@@ -13,11 +13,10 @@
     </select>
     <select size="10" ref="noteList" v-if="filteredNotes.length <= 0" @input="selectNote(notes[$refs.noteList.selectedIndex].id)">
       <option
-        v-for="note in notes"
+        v-for="note in notesByDateModified"
         :key="note.id"
         :value="note.name"
-        :data-note-id="note.id"
-        @click="selectNote(note.id)"
+        :data-date-modified="isDateToday(note.dateLastModified)"
         :class="{ active: selectedNoteID === note.id }"
       >
         {{ note.name }}
@@ -35,6 +34,9 @@ export default {
     notes () {
       return this.$store.state.Notes.notes
     },
+    notesByDateModified () {
+      return this.$store.getters.notesByDateModified
+    },
     selectedNoteID () {
       return this.$store.state.Notes.selectedNoteID
     },
@@ -45,7 +47,7 @@ export default {
       return this.$store.state.Notes.doesQueryHaveMatch
     },
     filteredNotes () {
-      return this.notes.filter(note => {
+      return this.notesByDateModified.filter(note => {
         let nameAndContents = note.name + note.contents
         return nameAndContents
           .toLowerCase()
@@ -62,6 +64,17 @@ export default {
 
       if (window.confirm('You are about to delete the note "' + this.notes[this.notes.findIndex(function (note) { return note.id === currentNoteId })].name + '"!')) {
         this.$store.dispatch('deleteNoteAndSelectNew', this.selectedNoteID)
+      }
+    },
+    isDateToday: function (date) {
+      let today = new Date()
+      let options = {year: 'numeric', month: 'short', day: 'numeric'}
+      let todayFormatted = today.toLocaleDateString('en-US', options)
+      if (date.includes(todayFormatted)) {
+        // return 'Today at ' + date.substring(14, 24)
+        return date.substring(0, 12) + ' at ' + date.substring(13, 18) + date.substring(21, 25)
+      } else {
+        return date.substring(0, 12) + ' at ' + date.substring(14, 20)
       }
     }
   },
@@ -111,6 +124,23 @@ export default {
     &:hover {
       cursor: default;
     }
+
+    &:after {
+      content: attr(data-date-modified);
+      width: 153px;
+      float: right;
+      text-align: left;
+      color: rgba(0,0,0, .4);
+      transition: color 1s ease-out;
+    }
+
+    &.active:after {
+      color: rgba(255,255,255, .7);
+    }
+  }
+
+  select:not(:focus) .active:after {
+    color: rgba(0,0,0, .5);
   }
 }
 </style>

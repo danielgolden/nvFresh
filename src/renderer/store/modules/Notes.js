@@ -9,6 +9,14 @@ const data = fs.readFileSync(remote.app.getPath('userData') + '/notes.json')
 // Parse the json data into an object
 const state = JSON.parse(data)
 
+const getters = {
+  notesByDateModified: state => {
+    return state.notes.concat().sort(function (a, b) {
+      return a.dateLastModified < b.dateLastModified
+    })
+  }
+}
+
 const mutations = {
   createNote: function (state) {
     let newNoteID = Math.floor(Math.random() * 10000000)
@@ -76,7 +84,8 @@ const actions = {
 export default {
   state,
   mutations,
-  actions
+  actions,
+  getters
 }
 
 // ### Features:
