@@ -5,7 +5,7 @@
         v-for="filteredNote in filteredNotes"
         :key="filteredNote.id"
         :value="filteredNote.name"
-        :data-date-modified="isDateToday(filteredNote.dateLastModified)"
+        :data-date-modified="prettyDateModified(filteredNote.dateLastModified)"
         :class="{ active: selectedNoteID === filteredNote.id }"
       >
         {{ filteredNote.name }}
@@ -16,7 +16,7 @@
         v-for="note in notesByDateModified"
         :key="note.id"
         :value="note.name"
-        :data-date-modified="isDateToday(note.dateLastModified)"
+        :data-date-modified="prettyDateModified(note.dateLastModified)"
         :class="{ active: selectedNoteID === note.id }"
       >
         {{ note.name }}
@@ -67,13 +67,31 @@ export default {
       }
     },
     isDateToday: function (date) {
-      let today = new Date()
-      let options = {year: 'numeric', month: 'short', day: 'numeric'}
-      let todayFormatted = today.toLocaleDateString('en-US', options)
-      if (date.includes(todayFormatted)) {
-        return 'Today at ' + date.substring(13, 18) + date.substring(21, 25)
+      // let today = new Date()
+      // let options = {year: 'numeric', month: 'short', day: 'numeric'}
+      // let todayFormatted = today.toLocaleDateString('en-US', options)
+      // if (date.includes(todayFormatted)) {
+      //   return 'Today at ' + date.substring(13, 18) + date.substring(21, 25)
+      // } else {
+      //   return date.substring(0, 12) + ' at ' + date.substring(13, 18) + date.substring(21, 25)
+      // }
+
+      return false
+    },
+    prettyDateModified (date) {
+      this.$moment().calendar(null, {
+        sameDay: '[Today]',
+        nextDay: '[Tomorrow]',
+        nextWeek: 'dddd',
+        lastDay: '[Yesterday]',
+        lastWeek: '[Last] dddd',
+        sameElse: 'DD/MM/YYYY'
+      })
+
+      if (this.$moment(date).isSame(new Date(), 'day')) {
+        return this.$moment(date).format('[Today at] hh:mm A')
       } else {
-        return date.substring(0, 12) + ' at ' + date.substring(13, 18) + date.substring(21, 25)
+        return this.$moment(date).format('MMM DD, YYYY [at] hh:mm A')
       }
     }
   },

@@ -1,4 +1,5 @@
 import { remote } from 'electron'
+import Vue from 'vue'
 
 // Pull in nodes file system stuff
 const fs = require('fs')
@@ -12,7 +13,7 @@ const state = JSON.parse(data)
 const getters = {
   notesByDateModified: state => {
     return state.notes.concat().sort(function (a, b) {
-      return a.dateLastModified < b.dateLastModified
+      return Vue.prototype.$moment(a.dateLastModified).isBefore(b.dateLastModified)
     })
   }
 }

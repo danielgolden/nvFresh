@@ -8,7 +8,7 @@
       <NoteEdit />
     </div>
 
-    <div class="markdown-preview markdown-body" v-html="compiledMarkdown">
+    <div class="markdown-preview markdown-body" @click="moment()" v-html="compiledMarkdown">
     </div>
   </div>
 </template>

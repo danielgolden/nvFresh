@@ -8,6 +8,7 @@ if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.http = Vue.prototype.$http = axios
 Vue.config.productionTip = false
 Vue.use(require('vue-shortkey'))
+Vue.use(require('vue-moment'))
 
 let remote = require('electron').remote
 let Menu = remote.Menu
