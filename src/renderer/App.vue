@@ -8,7 +8,8 @@
       <NoteEdit />
     </div>
 
-    <div class="markdown-preview markdown-body" v-html="compiledMarkdown"></div>
+    <div class="markdown-preview markdown-body" v-html="compiledMarkdown">
+    </div>
   </div>
 </template>
 
@@ -41,7 +42,7 @@ export default {
       },
       compiledMarkdown () {
         let currentNoteId = this.selectedNoteID // not sure why it gets so upset when I use this variable directly here
-        return marked(this.notes[this.notes.findIndex(function (note) { return note.id === currentNoteId })].contents, { sanitize: true })
+        return `<h1 class="md-preview-note-title">${this.notes[this.notes.findIndex(function (note) { return note.id === currentNoteId })].name}</h1> \n` + marked(this.notes[this.notes.findIndex(function (note) { return note.id === currentNoteId })].contents, { sanitize: true })
       }
     },
     methods: {
@@ -81,6 +82,11 @@ export default {
   left: 0;
 }
 
+.primary-section {
+  display: flex;
+  flex-direction: column;
+}
+
 .md-preview-active {
   display: flex;
   flex-direction: row;
@@ -88,10 +94,10 @@ export default {
   & .markdown-preview {
     display: block;
   }
-  
+
   & .primary-section {
     width: 50%;
-    display: block;
+    display: flex;
   }
 }
 

@@ -48,10 +48,8 @@ export default {
 textarea {
   display: block;
   width: 100%;
-  position: absolute;
-  top: 207px;
+  flex-grow: 1;
   line-height: 23px;
-  bottom: 0;
   padding: 15px;
   font-size: 16px;
   color: #222;

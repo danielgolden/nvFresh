@@ -1,27 +1,28 @@
 <template>
-  <div class="note-list-container" v-shortkey="{up: ['arrowup'], down: ['arrowdown'], delete: ['meta', 'd']}" @shortkey="handleShortcuts(selectedNoteID)">
-    <ul v-if="filteredNotes.length >= 0">
-      <li
+  <div class="note-list-container" v-shortkey="['meta', 'd']" @shortkey="deleteNote(selectedNoteID)">
+    <select size="7" ref="filteredNoteList" v-if="filteredNotes.length >= 0" @input="selectNote(filteredNotes[$refs.filteredNoteList.selectedIndex].id)">
+      <option
         v-for="filteredNote in filteredNotes"
         :key="filteredNote.id"
+        :value="filteredNote.name"
         :data-note-id="filteredNote.id"
-        @click="selectNote(filteredNote.id)"
         :class="{ active: selectedNoteID === filteredNote.id }"
       >
         {{ filteredNote.name }}
-      </li>
-    </ul>
-    <ul v-if="filteredNotes.length <= 0">
-      <li
+      </option>
+    </select>
+    <select size="10" ref="noteList" v-if="filteredNotes.length <= 0" @input="selectNote(notes[$refs.noteList.selectedIndex].id)">
+      <option
         v-for="note in notes"
         :key="note.id"
+        :value="note.name"
         :data-note-id="note.id"
         @click="selectNote(note.id)"
         :class="{ active: selectedNoteID === note.id }"
       >
         {{ note.name }}
-      </li>
-    </ul>
+      </option>
+    </select>
   </div>
 </template>
 
@@ -40,6 +41,9 @@ export default {
     newNoteName () {
       return this.$store.state.Notes.newNoteName
     },
+    doesQueryHaveMatch () {
+      return this.$store.state.Notes.doesQueryHaveMatch
+    },
     filteredNotes () {
       return this.notes.filter(note => {
         let nameAndContents = note.name + note.contents
@@ -53,43 +57,11 @@ export default {
     selectNote: function (id) {
       this.$store.commit('selectNote', id)
     },
-    handleShortcuts: function (e, id) {
+    deleteNote: function (e, id) {
       let currentNoteId = this.selectedNoteID
-      switch (event.srcKey) {
-        // up arrow key
-        case 'up':
-          if (this.$store.state.Notes.doesQueryHaveMatch) {
-            let prevNoteId = this.filteredNotes[this.filteredNotes.findIndex(function (note) { return note.id === currentNoteId }) - 1].id
-            if (prevNoteId) {
-              this.selectNote(prevNoteId)
-            }
-          } else {
-            let prevNoteId = this.notes[this.notes.findIndex(function (note) { return note.id === currentNoteId }) - 1].id
-            if (prevNoteId) {
-              this.selectNote(prevNoteId)
-            }
-          }
-          break
-        // down arrow key
-        case 'down':
-          if (this.$store.state.Notes.doesQueryHaveMatch) {
-            let nextNoteId = this.filteredNotes[this.filteredNotes.findIndex(function (note) { return note.id === currentNoteId }) + 1].id
-            if (nextNoteId) {
-              this.selectNote(nextNoteId)
-            }
-          } else {
-            let nextNoteId = this.notes[this.notes.findIndex(function (note) { return note.id === currentNoteId }) + 1].id
-            if (nextNoteId) {
-              this.selectNote(nextNoteId)
-            }
-          }
-          break
-        // command + d for delete
-        case 'delete':
-          if (window.confirm('You are about to delete the note "' + this.notes[this.notes.findIndex(function (note) { return note.id === currentNoteId })].name + '"!')) {
-            this.$store.dispatch('deleteNoteAndSelectNew', this.selectedNoteID)
-          }
-          break
+
+      if (window.confirm('You are about to delete the note "' + this.notes[this.notes.findIndex(function (note) { return note.id === currentNoteId })].name + '"!')) {
+        this.$store.dispatch('deleteNoteAndSelectNew', this.selectedNoteID)
       }
     }
   },
@@ -100,28 +72,41 @@ export default {
       }
     }
   }
+  // trying select the proper note on page load
+  // ,
+  // mounted: function () {
+  //   debugger
+  //   if (this.doesQueryHaveMatch) {
+  //     this.$refs.noteList.options.hasClass('active').selected = true
+  //   } else {
+  //     debugger
+  //     this.$refs.filteredNoteList.options[this.notes.findIndex(function (note) { return note.id === this.selectedNoteID })].selected = true
+  //   }
+  // }
 }
 </script>
 
 <style scoped lang="scss">
-
-.active {
-  color: #fff;
-  background-color: rgb(69, 107, 190);
-}
-
 .note-list-container {
   box-sizing: border-box;
-  margin: 0;
-  padding-top: 5px;
-  height: 150px;
+  margin: 1px 0 -3px;
   font-size: 13px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   line-height: 21px;
-  overflow: scroll;
 
-  li {
-    padding-left: 10px;
+  select {
+    width: 100%;
+    font-size: 13px;
+    border: none;
+
+    &:focus {
+      outline: none;
+
+    }
+  }
+
+  option {
+    padding: 2px 10px;
 
     &:hover {
       cursor: default;

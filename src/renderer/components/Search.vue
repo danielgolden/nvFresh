@@ -78,6 +78,7 @@ export default {
 <style lang="scss" scoped>
 .container {
   display: flex;
+  flex-shrink: 0;
   box-sizing: border-box;
   padding: 10px 10px 9px;
   background-image: linear-gradient(rgba(0,0,0, .1), rgba(0,0,0, .2));
