@@ -1,7 +1,7 @@
 <template>
-  <div id="app" :class="{'md-preview-active': mdPreviewLive}" v-shortkey="['meta', 'shift', 'p']" @shortkey="handleMdPreview()">
+  <div id="app" @keyup.down="focusNotesList" :class="{'md-preview-active': mdPreviewLive}" v-shortkey="['meta', 'shift', 'p']" @shortkey="handleMdPreview()">
     <div class="primary-section">
-      <search @newNoteSaved="focusNoteEdit()" />
+      <search @newNoteSaved="focusNoteEdit()"/>
 
       <NoteList />
 
@@ -48,6 +48,12 @@ export default {
     methods: {
       focusNoteEdit: function () {
         this.$children[2].$el.focus()
+      },
+      focusNotesList: function () {
+        if (this.$children[0].$el.children[1] === document.activeElement) {
+          this.$children[1].$el.children[0].focus()
+          this.$children[1].$el.children[0].selectedIndex = 0
+        }
       },
       handleMdPreview: function () {
         let currentWindowSize

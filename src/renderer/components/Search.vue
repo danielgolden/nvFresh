@@ -73,6 +73,9 @@ export default {
     },
     selectQuery: function () {
       this.$refs['searchInput'].select()
+    },
+    focusNoteList: function () {
+      this.$emit('downArrowFromSearch')
     }
   }
 }
