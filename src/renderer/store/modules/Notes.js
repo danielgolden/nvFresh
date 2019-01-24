@@ -1,5 +1,4 @@
 import { remote } from 'electron'
-import Vue from 'vue'
 
 // Pull in nodes file system stuff
 const fs = require('fs')
@@ -11,7 +10,6 @@ const data = fs.readFileSync(remote.app.getPath('userData') + '/notes.json')
 const state = JSON.parse(data)
 
 const getters = {
-
   notesByDateModified: state => {
     return state.notes.concat().sort(function (a, b) {
       return Date.parse(b.dateLastModified) - Date.parse(a.dateLastModified)
