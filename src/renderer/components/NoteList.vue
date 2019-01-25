@@ -1,27 +1,33 @@
 <template>
-  <div class="note-list-container" v-shortkey="['meta', 'd']" @shortkey="deleteNote(selectedNoteID)">
-    <select size="7" ref="filteredNoteList" v-if="filteredNotes.length > 0" @input="selectNote(filteredNotes[$refs.filteredNoteList.selectedIndex].id)">
-      <option
-        v-for="filteredNote in filteredNotes"
-        :key="filteredNote.id"
-        :value="shortName(filteredNote.name)"
-        :data-date-modified="prettyDateModified(filteredNote.dateLastModified)"
-        :class="{ active: selectedNoteID === filteredNote.id }"
-      >
-        {{ shortName(filteredNote.name) }}
-      </option>
-    </select>
-    <select size="7" ref="noteList" v-if="filteredNotes.length <= 0" @input="selectNote(notes[$refs.noteList.selectedIndex].id)">
-      <option
-        v-for="note in notesByDateModified"
-        :key="note.id"
-        :value="shortName(note.name)"
-        :data-date-modified="prettyDateModified(note.dateLastModified)"
-        :class="{ active: selectedNoteID === note.id }"
-      >
-        {{ shortName(note.name) }}
-      </option>
-    </select>
+  <div>
+    <div class="column-labels">
+      <h5 class="title-label">Title</h5>
+      <h5 class="date-modified-label">Date Modified</h5>
+    </div>
+    <div class="note-list-container" v-shortkey="['meta', 'd']" @shortkey="deleteNote(selectedNoteID)">
+      <select size="7" ref="filteredNoteList" v-if="filteredNotes.length > 0" @input="selectNote(filteredNotes[$refs.filteredNoteList.selectedIndex].id)">
+        <option
+          v-for="filteredNote in filteredNotes"
+          :key="filteredNote.id"
+          :value="shortName(filteredNote.name)"
+          :data-date-modified="prettyDateModified(filteredNote.dateLastModified)"
+          :class="{ active: selectedNoteID === filteredNote.id }"
+        >
+          {{ shortName(filteredNote.name) }}
+        </option>
+      </select>
+      <select size="7" ref="noteList" v-if="filteredNotes.length <= 0" @input="selectNote(notes[$refs.noteList.selectedIndex].id)">
+        <option
+          v-for="note in notesByDateModified"
+          :key="note.id"
+          :value="shortName(note.name)"
+          :data-date-modified="prettyDateModified(note.dateLastModified)"
+          :class="{ active: selectedNoteID === note.id }"
+        >
+          {{ shortName(note.name) }}
+        </option>
+      </select>
+    </div>
   </div>
 </template>
 
@@ -165,6 +171,32 @@ export default {
 
   select:not(:focus) .active:after {
     color: rgba(0,0,0, .5);
+  }
+}
+
+.column-labels {
+  display: flex;
+  padding: 6px 10px 5px;
+  position: relative;
+  z-index: 10;
+  justify-content: space-between;
+  background-color: rgba(0, 0, 0, 0.07);
+  // background-image: linear-gradient(rgba(255,255,255, .15), rgba(0,0,0, .025));
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.175), 0 3px 0 rgba(0,0,0, .03);
+
+  h5 {
+    font-size: 11px;
+    font-weight: normal;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    color: rgba(0, 0, 0, 0.65);
+    text-transform: uppercase;
+    letter-spacing: .75px;
+
+  }
+
+  .date-modified-label {
+    position: relative;
+    right: 58px;
   }
 }
 </style>

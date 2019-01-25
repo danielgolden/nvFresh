@@ -88,7 +88,7 @@ export default {
   box-sizing: border-box;
   padding: 10px 10px 9px;
   background-image: linear-gradient(rgba(0,0,0, .1), rgba(0,0,0, .2));
-  box-shadow: 0 1px 0 rgba(0,0,0, .3);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.275);
   -ms-overflow-style: scrollbar;
   -webkit-app-region:drag;
 }
