@@ -60,6 +60,10 @@ const mutations = {
   },
   deleteNote (state, payload) {
     state.notes.splice(state.notes.findIndex(function (note) { return note.id === payload }), 1)
+  },
+  renameNote (state, payload) {
+    let indexOfRenamedNoted = state.notes.findIndex(note => note.id === payload[1])
+    state.notes[indexOfRenamedNoted].name = payload[0]
   }
 }
 
@@ -77,6 +81,10 @@ const actions = {
   deleteNoteAndSelectNew: ({commit}, payload) => {
     commit('deleteNote', payload)
     commit('selectNote', state.notes[0].id)
+    commit('saveToFile')
+  },
+  renameNoteandSave: ({commit}, payload) => {
+    commit('renameNote', payload)
     commit('saveToFile')
   }
 }
