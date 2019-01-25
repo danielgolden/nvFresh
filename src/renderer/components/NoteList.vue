@@ -137,6 +137,7 @@ export default {
         sameElse: 'DD/MM/YYYY'
       })
 
+      // Todo: Add a condition to return "Yesterday at <time> if date is yesterday"
       if (this.$moment(date).isSame(new Date(), 'day')) {
         return this.$moment(date).format('[Today at] h:mm A')
       } else {
