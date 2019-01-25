@@ -1,12 +1,11 @@
 <template>
   <div>
-    <div class="column-labels" contenteditable="true">
+    <div class="column-labels">
       <h5 class="title-label">Title</h5>
       <h5 class="date-modified-label">Date Modified</h5>
     </div>
     <div
       class="note-list-container"
-      contenteditable="true"
       v-shortkey="{editNoteTitle: ['meta', 'ctrl', 'r'], deleteNote: ['meta', 'd']}"
       @shortkey="handleShortcuts(selectedNoteID)"
     >
