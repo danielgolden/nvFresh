@@ -64,6 +64,7 @@ const mutations = {
   renameNote (state, payload) {
     let indexOfRenamedNoted = state.notes.findIndex(note => note.id === payload[1])
     state.notes[indexOfRenamedNoted].name = payload[0]
+    state.notes[indexOfRenamedNoted].dateLastModified = payload[2]
   }
 }
 

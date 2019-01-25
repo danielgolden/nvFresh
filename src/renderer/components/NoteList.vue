@@ -46,7 +46,7 @@
     <div class="modal edit-name-modal" v-show="updateNoteNameModalActive">
       <h3 class="modal-heading">Rename Note</h3>
       <p class="modal-description">What would you like to rename this note?</p>
-      <input type="text" class="edit-name-input" v-model="renameNoteTo" :placeholder="selectedNoteName">
+      <input ref="renameNoteInput" type="text" class="edit-name-input" v-model="renameNoteTo" :placeholder="selectedNoteName">
       <button class="cancel" @click="updateNoteNameModalActive = false">Cancel</button>
       <button class="submit" @click="renameNote(renameNoteTo)">Rename</button>
     </div>
@@ -105,6 +105,9 @@ export default {
           break
         case 'editNoteTitle':
           this.updateNoteNameModalActive = true
+          this.$nextTick(function () {
+            this.$refs.renameNoteInput.focus()
+          })
           break
       }
     },
@@ -152,7 +155,7 @@ export default {
       }
     },
     renameNote (updatedNoteName) {
-      this.$store.dispatch('renameNoteandSave', [updatedNoteName, this.selectedNoteID])
+      this.$store.dispatch('renameNoteandSave', [updatedNoteName, this.selectedNoteID, new Date()])
       this.updateNoteNameModalActive = false
     }
   },
