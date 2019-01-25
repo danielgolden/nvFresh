@@ -138,9 +138,9 @@ export default {
       })
 
       if (this.$moment(date).isSame(new Date(), 'day')) {
-        return this.$moment(date).format('[Today at] hh:mm A')
+        return this.$moment(date).format('[Today at] h:mm A')
       } else {
-        return this.$moment(date).format('MMM DD, YYYY [at] hh:mm A')
+        return this.$moment(date).format('MMM D, YYYY [at] h:mm A')
       }
     },
     shortName (fullName) {
@@ -232,18 +232,18 @@ export default {
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.175), 0 3px 0 rgba(0,0,0, .03);
 
   h5 {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: normal;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     color: rgba(0, 0, 0, 0.65);
     text-transform: uppercase;
-    letter-spacing: .75px;
+    letter-spacing: .85px;
 
   }
 
   .date-modified-label {
     position: relative;
-    right: 58px;
+    right: 64px;
   }
 }
 
