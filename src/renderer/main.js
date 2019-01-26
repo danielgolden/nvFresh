@@ -15,6 +15,12 @@ let Menu = remote.Menu
 
 const template = [
   {
+    label: 'File',
+    submenu: [
+      { label: 'Rename Note', role: 'Rename Note', accelerator: 'CmdOrCtrl+R' }
+    ]
+  },
+  {
     label: 'Edit',
     submenu: [
       { role: 'undo' },
@@ -31,7 +37,7 @@ const template = [
   {
     label: 'View',
     submenu: [
-      { role: 'reload' },
+      { role: 'reload', accelerator: 'CmdOrCtrl+J' },
       { role: 'forcereload' },
       { role: 'toggledevtools' },
       { type: 'separator' },
