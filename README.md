@@ -1,28 +1,11 @@
-#### A quick preview with some sample notes
+![sup](https://user-images.githubusercontent.com/812989/51790702-d7a7f400-2166-11e9-8b7a-c1ac4a82491a.png)
 
-![sup](https://user-images.githubusercontent.com/812989/51639465-f4f27d80-1f2e-11e9-9270-e5085b24556d.png)
-
-## Todo:
-- [x] Add date created to newly saved notes
-- [x] Add date modified to newly saved & modified notes
-- [ ] add preview of note contents next to name listing
-- [x] search the contents of a note in addition to the titles
-- [ ] Allow for sorting by date
-- [x] delete note on keyboard shortcut of command delete
-- [ ] Mabye: allow for deleting multiple notes at once with shift click selection
-- [x] Move the json file to it's proper home
-- [ ] add ability to rename notes
-- [x] Add markdown preview and highlighting
-- [x] Configure menu bar option (file, preferences, etc.)
-- [ ] Enable spell check inside of the edit `textarea`
-- [ ] Add note title to the top of the markdown preview in an `<h1>`
-- [ ] Add in-note search via command-f
-- [ ] Allow for note-list navigation via the arrow keys
-
-## Bugs to fix:
-- [x] Bug where when you create a new note on enter, the first note is selected
-- [x] You can't use the command key to make selections or stuff like that. Why?
-- [ ] Open all new links in the primary browser instead of inside of this electron browser window.
+## Installation
+1. [Download nvFresh for Mac](https://github.com/danielgolden/nvFresh/raw/master/build/nvFresh-0.0.1.dmg)
+2. Open the .dmg file, and drag the app over to your applications folder.
+    - (It will tell you can't open it because the developer is unknown or something) so...
+3. Open **System Preferences** and navigate to **Security and Privacy**
+4. Click "Open Anyway" at the bottom of the window
 
 
 ---
