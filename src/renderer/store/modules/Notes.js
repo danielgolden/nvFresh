@@ -3,8 +3,36 @@ import { remote } from 'electron'
 // Pull in nodes file system stuff
 const fs = require('fs')
 
-// assign the path of the json file that holds our store to a variable
-const data = fs.readFileSync(remote.app.getPath('userData') + '/notes.json')
+const gettingStartedData = {
+  'notes': [
+    {
+      'id': 100000,
+      'name': 'Welcome to nvFresh!',
+      'contents': "nvFresh supports Markdown and has preview built in. Just press `Command + Shift + p` to preview your note in Markdown.*\n\nThanks for trying out nvFresh, the minimal notes app based on [nvALT] designed around the use of [Markdown]. There are 3 main sections in \nnvFresh where you create, search, and choose your notes:\n\n- **Search/Create bar**: type into this bar to search the names and contents of every note you've created! To create a note, just press enter after typing into the bar, and a note will be with your text as the title.\n- **Notes List**: All of your notes live here, ordered by date last modified.\n- **Editor**: This is where you write and update your notes (it's where you're reading this).\n\n---\n\n\n### Feedback\nI'd love to hear your ideas for how nvFresh can be improved, or if you find some bugs! Feel free to get in touch via [Twitter](https://twitter.com/DanGolden1) or submit an issue on  [GitHub](https://github.com/danielgolden/nvFresh).\n\nnvFresh is based on [nvALT](http://brettterpstra.com/projects/nvalt/), which is based on [Notational Velocity](http://notational.net/).\n\n[nvAlt]: http://brettterpstra.com/projects/nvalt/\n[Markdown]: https://guides.github.com/features/mastering-markdown/",
+      'dateCreated': '2019-01-21T11:22:55.343Z',
+      'dateLastModified': '2019-01-26T14:02:15.150Z'
+    },
+    {
+      'id': 8274110,
+      'name': 'How to do other stuff',
+      'contents': "nvFresh's window was designed for keyboard input above all else, and that's why it doesn't have any buttons (mostly). Everything you'd want to do is handled by keyboard shortcuts. The beauty of this is you won't need to take your hands off of the keyboard to to create and mange your notes (or really anything).\n\n# Keyboard Shortcuts\n- `command + l`: Move focus and the cursor the the search/create bar\n- `Up and Down arrows`: Navigate through your notes.\n- `Command + Shift + p`: Markdown Preview\n- `Command + Ctrl + r`: Rename a note.\n",
+      'dateCreated': '2019-01-25T22:00:37.979Z',
+      'dateLastModified': '2019-01-25T22:06:22.609Z'
+    }
+  ],
+  'selectedNoteID': 100000,
+  'newNoteName': '',
+  'doesQueryHaveMatch': true
+}
+
+let data = ''
+
+if (fs.existsSync(remote.app.getPath('userData') + '/notes.json')) {
+  // assign the path of the json file that holds our store to a variable
+  data = fs.readFileSync(remote.app.getPath('userData') + '/notes.json')
+} else {
+  data = JSON.stringify(gettingStartedData)
+}
 
 // Parse the json data into an object
 const state = JSON.parse(data)
