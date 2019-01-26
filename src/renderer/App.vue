@@ -1,9 +1,36 @@
 <template>
-  <div id="app" @keyup.down="focusNotesList" :class="{'md-preview-active': mdPreviewLive}" v-shortkey="['meta', 'shift', 'p']" @shortkey="handleMdPreview()">
+  <div
+    id="app"
+    @keyup.down="focusNotesList"
+    :class="{'md-preview-active': mdPreviewLive}"
+    v-shortkey="{getInfo: ['meta', 'i'], mdPreview: ['meta', 'shift', 'p']}"
+    @shortkey="handleShortcuts()"
+  >
     <div class="primary-section">
       <search @newNoteSaved="focusNoteEdit()"/>
 
       <NoteList />
+
+      <div class="note-info-container" v-if="getInfoActive">
+        <ul class="note-info">
+          <li class="note-info-item">
+            <span class="note-info-label">Words</span>
+            <span class="note-info-data">{{ selectedNoteWordCount }}</span>
+          </li>
+          <li class="note-info-item">
+            <span class="note-info-label">Characters</span>
+            <span class="note-info-data">{{ selectedNoteCharacterCount }}</span>
+          </li>
+          <li class="note-info-item">
+            <span class="note-info-label">Created</span>
+            <span class="note-info-data">{{ selectedNotePrettyDateCreated }}</span>
+          </li>
+          <li class="note-info-item">
+            <span class="note-info-label">Last Modified</span>
+            <span class="note-info-data">{{ selectedNotePrettyDateModified }}</span>
+          </li>
+        </ul>
+      </div>
 
       <NoteEdit />
     </div>
@@ -23,7 +50,8 @@
 export default {
     data () {
       return {
-        mdPreviewLive: false
+        mdPreviewLive: false,
+        getInfoActive: false
       }
     },
     name: 'nv-fresh-electron',
@@ -39,6 +67,10 @@ export default {
       },
       selectedNoteID () {
         return this.$store.state.Notes.selectedNoteID
+      },
+      selectedNoteIndexInList () {
+        let currentNoteId = this.selectedNoteID
+        return this.notes.findIndex(function (note) { return note.id === currentNoteId })
       },
       compiledMarkdown () {
         let currentNoteId = this.selectedNoteID // not sure why it gets so upset when I use this variable directly here
@@ -61,6 +93,30 @@ export default {
         mdOutput = mdOutput.replace(/<a href/g, '<a target="_blank" href')
 
         return mdOutput
+      },
+      selectedNoteWordCount () {
+        if (this.notes[this.selectedNoteIndexInList].contents === '') {
+          return 0
+        } else {
+          return this.notes[this.selectedNoteIndexInList].contents.split(/\s+/).length
+        }
+      },
+      selectedNoteCharacterCount () {
+        return this.notes[this.selectedNoteIndexInList].contents.length
+      },
+      selectedNotePrettyDateModified () {
+        if (this.$moment(this.notes[this.selectedNoteIndexInList].dateLastModified).isSame(new Date(), 'day')) {
+          return this.$moment(this.notes[this.selectedNoteIndexInList].dateLastModified).format('[Today at] h:mm A')
+        } else {
+          return this.$moment(this.notes[this.selectedNoteIndexInList].dateLastModified).format('MM/D/YY [at] h:mm A')
+        }
+      },
+      selectedNotePrettyDateCreated () {
+        if (this.$moment(this.notes[this.selectedNoteIndexInList].dateCreated).isSame(new Date(), 'day')) {
+          return this.$moment(this.notes[this.selectedNoteIndexInList].dateCreated).format('[Today at] h:mm A')
+        } else {
+          return this.$moment(this.notes[this.selectedNoteIndexInList].dateCreated).format('MM/D/YY [at] h:mm A')
+        }
       }
     },
     methods: {
@@ -73,24 +129,31 @@ export default {
           this.$children[1].$refs.filteredNoteList.selectedIndex = 0
         }
       },
-      handleMdPreview: function () {
-        let currentWindowSize
-        let currentWindowPosition
+      handleShortcuts: function () {
+        switch (event.srcKey) {
+          case 'getInfo':
+            this.getInfoActive = !this.getInfoActive
+            break
+          case 'mdPreview':
+            let currentWindowSize
+            let currentWindowPosition
 
-        if (this.mdPreviewLive) {
-          this.mdPreviewLive = false
-          currentWindowSize = require('electron').remote.getCurrentWindow().getSize()
-          currentWindowPosition = require('electron').remote.getCurrentWindow().getPosition()
-          require('electron').remote.getCurrentWindow().setSize(currentWindowSize[0] / 2, currentWindowSize[1])
-          require('electron').remote.getCurrentWindow().setPosition(currentWindowPosition[0] + currentWindowSize[0] / 4, currentWindowPosition[1])
-        } else {
-          this.mdPreviewLive = true
-          currentWindowSize = require('electron').remote.getCurrentWindow().getSize()
-          currentWindowPosition = require('electron').remote.getCurrentWindow().getPosition()
-          require('electron').remote.getCurrentWindow().setSize(currentWindowSize[0] * 2, currentWindowSize[1])
-          setTimeout(function () {
-            require('electron').remote.getCurrentWindow().setPosition(currentWindowPosition[0] - currentWindowSize[0] / 2, currentWindowPosition[1])
-          }, 5)
+            if (this.mdPreviewLive) {
+              this.mdPreviewLive = false
+              currentWindowSize = require('electron').remote.getCurrentWindow().getSize()
+              currentWindowPosition = require('electron').remote.getCurrentWindow().getPosition()
+              require('electron').remote.getCurrentWindow().setSize(currentWindowSize[0] / 2, currentWindowSize[1])
+              require('electron').remote.getCurrentWindow().setPosition(currentWindowPosition[0] + currentWindowSize[0] / 4, currentWindowPosition[1])
+            } else {
+              this.mdPreviewLive = true
+              currentWindowSize = require('electron').remote.getCurrentWindow().getSize()
+              currentWindowPosition = require('electron').remote.getCurrentWindow().getPosition()
+              require('electron').remote.getCurrentWindow().setSize(currentWindowSize[0] * 2, currentWindowSize[1])
+              setTimeout(function () {
+                require('electron').remote.getCurrentWindow().setPosition(currentWindowPosition[0] - currentWindowSize[0] / 2, currentWindowPosition[1])
+              }, 5)
+            }
+            break
         }
       }
     }
@@ -834,5 +897,49 @@ export default {
 .markdown-body hr {
   border-bottom-color: #eee;
 }
+
+.note-info-container {
+  position: absolute;
+  width: 593px;
+  height: 78px;
+  width: calc(100% - 30px);
+  margin: 0 15px 15px;
+  bottom: 0;
+  z-index: 10;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background: #FFFFFF;
+  border: 1px solid #D9D9D9;
+  box-sizing: border-box;
+  box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.04), 0px 2px 0px rgba(0, 0, 0, 0.03);
+  border-radius: 3px;
+}
+
+.note-info {
+  list-style-type: none;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 25px;
+  align-items: center;
+  height: 100%;
+}
+
+.note-info-label {
+  display: block;
+  margin-bottom: 4px;
+  color: #898989;
+  font-size: 14px;
+}
+
+.note-info-data {
+  color: #373737;
+  font-size: 16px;
+  font-weight: 500;
+
+  @media screen and (max-width: 550px) {
+    font-size: 14px;
+    font-weight: 400;
+  }
+}
+
 
 </style>
