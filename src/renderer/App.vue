@@ -47,7 +47,11 @@ export default {
         let mdOutput = `<h1 class="md-preview-note-title">${this.notes[this.notes.findIndex(function (note) { return note.id === currentNoteId })].name}</h1> \n` + marked(this.notes[this.notes.findIndex(function (note) { return note.id === currentNoteId })].contents, { sanitize: true })
 
         // Add a class to all list items to handle removing bullet from checkboxes
-        return mdOutput.replace(/<li><input/g, '<li class="task-list-item"><input')
+        // and making sure all links open in a new window
+        mdOutput = mdOutput.replace(/<li><input/g, '<li class="task-list-item"><input')
+        mdOutput = mdOutput.replace(/<a href/g, '<a target="_blank" href')
+
+        return mdOutput
       }
     },
     methods: {
