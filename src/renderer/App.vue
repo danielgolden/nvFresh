@@ -51,7 +51,7 @@ export default {
           currentNoteId = this.notes[0].id
         }
 
-        if (this.notes.length > 1) { // check to see if any notes exist (user may have deleted them all)
+        if (this.notes.length > 0) { // check to see if any notes exist (user may have deleted them all)
           mdOutput = `<h1 class="md-preview-note-title">${this.notes[this.notes.findIndex(function (note) { return note.id === currentNoteId })].name}</h1> \n` + marked(this.notes[this.notes.findIndex(function (note) { return note.id === currentNoteId })].contents, { sanitize: true })
         }
 
