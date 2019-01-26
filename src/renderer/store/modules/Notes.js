@@ -109,7 +109,9 @@ const actions = {
   },
   deleteNoteAndSelectNew: ({commit}, payload) => {
     commit('deleteNote', payload)
-    commit('selectNote', state.notes[0].id)
+    if (state.notes.length > 0) {
+      commit('selectNote', state.notes[0].id)
+    }
     commit('saveToFile')
   },
   renameNoteandSave: ({commit}, payload) => {

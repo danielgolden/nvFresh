@@ -44,7 +44,16 @@ export default {
         let currentNoteId = this.selectedNoteID // not sure why it gets so upset when I use this variable directly here
 
         // Prepend the note title to the front of the MD output
-        let mdOutput = `<h1 class="md-preview-note-title">${this.notes[this.notes.findIndex(function (note) { return note.id === currentNoteId })].name}</h1> \n` + marked(this.notes[this.notes.findIndex(function (note) { return note.id === currentNoteId })].contents, { sanitize: true })
+        let mdOutput = ''
+
+        if (this.notes.length === 1) {
+          // if there's only one note, then assign currentNoteId to that notes id
+          currentNoteId = this.notes[0].id
+        }
+
+        if (this.notes.length > 1) { // check to see if any notes exist (user may have deleted them all)
+          mdOutput = `<h1 class="md-preview-note-title">${this.notes[this.notes.findIndex(function (note) { return note.id === currentNoteId })].name}</h1> \n` + marked(this.notes[this.notes.findIndex(function (note) { return note.id === currentNoteId })].contents, { sanitize: true })
+        }
 
         // Add a class to all list items to handle removing bullet from checkboxes
         // and making sure all links open in a new window
@@ -56,7 +65,7 @@ export default {
     },
     methods: {
       focusNoteEdit: function () {
-        this.$children[2].$el.focus()
+        this.$children[2].$refs.noteContent.focus()
       },
       focusNotesList: function () {
         if (this.$children[0].$el.children[1] === document.activeElement) {

@@ -8,7 +8,9 @@
       class="note-list-container"
       v-shortkey="{editNoteTitle: ['meta', 'r'], deleteNote: ['meta', 'd']}"
       @shortkey="handleShortcuts(selectedNoteID)"
+      :class="{'no-notes': notes.length === 0}"
     >
+      <h5 class="empty-state-header" v-if="notes.length === 0">There are no existing notes</h5>
       <select
         size="7"
         ref="filteredNoteList"
@@ -21,10 +23,10 @@
           :value="shortName(filteredNote.name)"
           :data-date-modified="prettyDateModified(filteredNote.dateLastModified)"
           :class="{ active: selectedNoteID === filteredNote.id }"
+          :selected="selectedNoteID === filteredNote.id"
         >
           {{ shortName(filteredNote.name) }}
         </option>
-        <span>hi there</span>
       </select>
       <select
         size="7"
@@ -38,6 +40,7 @@
           :value="shortName(note.name)"
           :data-date-modified="prettyDateModified(note.dateLastModified)"
           :class="{ active: selectedNoteID === note.id }"
+          :selected="selectedNoteID === note.id"
         >
           {{ shortName(note.name) }}
         </option>
@@ -75,7 +78,9 @@ export default {
       return this.$store.state.Notes.selectedNoteID
     },
     selectedNoteName () {
-      return this.notes[this.selectedNoteIndexInList].name
+      if (this.selectedNoteIndexInList > -1) {
+        return this.notes[this.selectedNoteIndexInList].name
+      }
     },
     newNoteName () {
       return this.$store.state.Notes.newNoteName
@@ -189,6 +194,10 @@ export default {
   font-size: 13px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   line-height: 21px;
+
+  &.no-notes {
+    position: relative;
+  }
 
   select {
     width: 100%;
@@ -330,5 +339,21 @@ button.cancel {
     background-color: transparent;
     box-shadow: inset 0 0 0 2px #9e9e9e;
     color: #989898;
+}
+
+.empty-state-header {
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: normal;
+  color: rgba(0,0,0, .4);
+  text-align: center;
+  height: 100p;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  /* vertical-align: middle; */
+  bottom: 0;
+  line-height: 112px;
 }
 </style>
