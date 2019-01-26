@@ -1,7 +1,10 @@
 .DS_Store
 dist/electron/*
 dist/web/*
-build/*
+build/mac/*
+build/*.blockmap
+build/*.yaml
+build/*.yml
 !build/icons
 node_modules/
 npm-debug.log
