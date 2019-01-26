@@ -42,7 +42,12 @@ export default {
       },
       compiledMarkdown () {
         let currentNoteId = this.selectedNoteID // not sure why it gets so upset when I use this variable directly here
-        return `<h1 class="md-preview-note-title">${this.notes[this.notes.findIndex(function (note) { return note.id === currentNoteId })].name}</h1> \n` + marked(this.notes[this.notes.findIndex(function (note) { return note.id === currentNoteId })].contents, { sanitize: true })
+
+        // Prepend the note title to the front of the MD output
+        let mdOutput = `<h1 class="md-preview-note-title">${this.notes[this.notes.findIndex(function (note) { return note.id === currentNoteId })].name}</h1> \n` + marked(this.notes[this.notes.findIndex(function (note) { return note.id === currentNoteId })].contents, { sanitize: true })
+
+        // Add a class to all list items to handle removing bullet from checkboxes
+        return mdOutput.replace(/<li><input/g, '<li class="task-list-item"><input')
       }
     },
     methods: {
