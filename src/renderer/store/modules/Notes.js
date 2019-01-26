@@ -15,12 +15,12 @@ const gettingStartedData = {
     {
       'id': 8274110,
       'name': 'How to do other stuff',
-      'contents': "nvFresh's window was designed for keyboard input above all else, and that's why it doesn't have any buttons (mostly). Everything you'd want to do is handled by keyboard shortcuts. The beauty of this is you won't need to take your hands off of the keyboard to to create and mange your notes (or really anything).\n\n# Keyboard Shortcuts\n- `command + l`: Move focus and the cursor the the search/create bar\n- `Up and Down arrows`: Navigate through your notes.\n- `Command + Shift + p`: Markdown Preview\n- `Command + Ctrl + r`: Rename a note.\n",
+      'contents': "nvFresh's window was designed for keyboard input above all else, and that's why it doesn't have any buttons (mostly). Everything you'd want to do is handled by keyboard shortcuts. The beauty of this is you won't need to take your hands off of the keyboard to to create and mange your notes (or really anything).\n\n## Keyboard Shortcuts\n*On Windows \"Ctrl\" should be used instead of \"Command\"*\n- `Command + l`: Move focus and the cursor the the search/create bar\n- `Up and Down arrows`: Navigate through your notes.\n- `Command + Shift + P`: Markdown Preview\n- `Command + R`: Rename a note.\n",
       'dateCreated': '2019-01-25T22:00:37.979Z',
-      'dateLastModified': '2019-01-25T22:06:22.609Z'
+      'dateLastModified': '2019-01-26T14:35:11.392Z'
     }
   ],
-  'selectedNoteID': 100000,
+  'selectedNoteID': 8274110,
   'newNoteName': '',
   'doesQueryHaveMatch': true
 }
