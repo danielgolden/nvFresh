@@ -6,7 +6,7 @@
     </div>
     <div
       class="note-list-container"
-      v-shortkey="{editNoteTitle: ['meta', 'ctrl', 'r'], deleteNote: ['meta', 'd']}"
+      v-shortkey="{editNoteTitle: ['meta', 'r'], deleteNote: ['meta', 'd']}"
       @shortkey="handleShortcuts(selectedNoteID)"
     >
       <select
@@ -24,6 +24,7 @@
         >
           {{ shortName(filteredNote.name) }}
         </option>
+        <span>hi there</span>
       </select>
       <select
         size="7"
@@ -40,13 +41,14 @@
         >
           {{ shortName(note.name) }}
         </option>
+        <span>hi there</span>
       </select>
     </div>
 
     <div class="modal edit-name-modal" v-show="updateNoteNameModalActive">
       <h3 class="modal-heading">Rename Note</h3>
       <p class="modal-description">What would you like to rename this note?</p>
-      <input ref="renameNoteInput" type="text" class="edit-name-input" v-model="renameNoteTo" :placeholder="selectedNoteName">
+      <input ref="renameNoteInput" @keyup.enter="renameNote(renameNoteTo)" type="text" class="edit-name-input" v-model="renameNoteTo" :placeholder="selectedNoteName">
       <button class="cancel" @click="updateNoteNameModalActive = false">Cancel</button>
       <button class="submit" @click="renameNote(renameNoteTo)">Rename</button>
     </div>
