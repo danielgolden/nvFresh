@@ -19,7 +19,9 @@
 
 export default {
   data () {
-    return {}
+    return {
+      noSearchResults: false
+    }
   },
   computed: {
     notes () {
@@ -31,12 +33,23 @@ export default {
     newNoteName () {
       return this.$store.state.Notes.newNoteName
     },
+    notesByDateModified () {
+      return this.$store.getters.notesByDateModified
+    },
+    filteredNotes () {
+      return this.notesByDateModified.filter(note => {
+        let nameAndContents = note.name + note.contents
+        return nameAndContents
+          .toLowerCase()
+          .includes(this.newNoteName.toLowerCase())
+      })
+    },
     currentNoteContents () {
       let currentNoteId = this.selectedNoteID
-      if (this.notes.length > 0) {
-        return this.notes[this.notes.findIndex(function (note) { return note.id === currentNoteId })].contents
-      } else {
+      if (this.newNoteName !== '' && this.filteredNotes.length === 0) {
         return ''
+      } else if (this.notes.length > 0) {
+        return this.notes[this.notes.findIndex(function (note) { return note.id === currentNoteId })].contents
       }
     }
   },
