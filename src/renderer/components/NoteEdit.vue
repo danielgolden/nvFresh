@@ -93,9 +93,9 @@ textarea {
   display: block;
   width: 100%;
   flex-grow: 1;
-  line-height: 23px;
+  line-height: 21px;
   padding: 15px;
-  font-size: 16px;
+  font-size: 14px;
   color: #222;
   border: none;
   border-top: 5px solid rgba(0,0,0, .125);
