@@ -57,9 +57,11 @@ export default {
         return ''
       } else if (this.newNoteName !== '' && this.filteredNotes.length > 0) {
         debugger
-        let myRegExp = new RegExp(`\\s+(?=(${this.newNoteName}))`, 'g')
+        let beforeQueryRegEx = new RegExp(`\\s+(?=(${this.newNoteName}))`, 'g')
+        let afterQueryRegEx = new RegExp(`\\s+(?=(${this.newNoteName}))`, 'g')
         let noteContents = this.notes[this.selectedNoteIndexInList].contents
-        return noteContents.replace(myRegExp, `<span class="query-match">${this.newNoteName}</span>`)
+        return noteContents.replace(beforeQueryRegEx, ` <span class="query-match">`)
+        return noteContents.replace(afterQueryRegEx, `</span> `)
         // return this.currentNoteContents.innerHTML = this.currentNoteContents.innerHTML.replace(this.newNoteName, `<span class="query-match">${this.newNoteName}</span>`)
       } else if (this.notes.length > 0) {
         return this.notes[this.selectedNoteIndexInList].contents
