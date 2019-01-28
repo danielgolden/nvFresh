@@ -7,11 +7,14 @@
         bar above and then press enter.
       </p>
     </div>
-    <textarea
+    <div
+      class="note-contents"
       ref="noteContent"
       :value="currentNoteContents"
       @input="updateNoteContents"
-    ></textarea>
+      contentEditable
+      v-html="currentNoteContents"
+    ></div>
   </div>
 </template>
 
@@ -30,6 +33,10 @@ export default {
     selectedNoteID () {
       return this.$store.state.Notes.selectedNoteID
     },
+    selectedNoteIndexInList () {
+      let currentNoteId = this.selectedNoteID
+      return this.notes.findIndex(function (note) { return note.id === currentNoteId })
+    },
     newNoteName () {
       return this.$store.state.Notes.newNoteName
     },
@@ -45,11 +52,17 @@ export default {
       })
     },
     currentNoteContents () {
-      let currentNoteId = this.selectedNoteID
+      // let currentNoteId = this.selectedNoteID
       if (this.newNoteName !== '' && this.filteredNotes.length === 0) {
         return ''
+      } else if (this.newNoteName !== '' && this.filteredNotes.length > 0) {
+        debugger
+        let myRegExp = new RegExp(`\\s+(?=(${this.newNoteName}))`, 'g')
+        let noteContents = this.notes[this.selectedNoteIndexInList].contents
+        return noteContents.replace(myRegExp, `<span class="query-match">${this.newNoteName}</span>`)
+        // return this.currentNoteContents.innerHTML = this.currentNoteContents.innerHTML.replace(this.newNoteName, `<span class="query-match">${this.newNoteName}</span>`)
       } else if (this.notes.length > 0) {
-        return this.notes[this.notes.findIndex(function (note) { return note.id === currentNoteId })].contents
+        return this.notes[this.selectedNoteIndexInList].contents
       }
     }
   },
@@ -59,7 +72,7 @@ export default {
       // let options = { year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }
       // let dateModifiedFormatted = dateModified.toLocaleDateString('en-US', options)
 
-      let payload = {'contents': e.target.value, 'dateModified': dateModified}
+      let payload = {'contents': e.target.innerText, 'dateModified': dateModified}
       this.$store.commit('updateNoteContents', payload)
 
       // If user types again, restart the timer for saving to the file
@@ -78,7 +91,9 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+// turned off scoped styled to allow for .query-match highlighting
+
 .note-edit-container {
   display: flex;
   height: 100%;
@@ -89,7 +104,7 @@ export default {
   }
 }
 
-textarea {
+.note-contents {
   display: block;
   width: 100%;
   flex-grow: 1;
@@ -98,8 +113,18 @@ textarea {
   font-size: 16px;
   color: #222;
   border: none;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   border-top: 5px solid rgba(0,0,0, .125);
   resize: none;
+  white-space: pre-line;
+  overflow: scroll;
+
+  span.query-match {
+    background-color: #d7edff;
+    border-radius: 1px;
+    box-shadow: 0 0 0 2px #d7edff;
+    transition: all .2s ease-in-out;
+  }
 
   &:focus {
     outline: none;
