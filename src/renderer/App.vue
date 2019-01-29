@@ -121,7 +121,13 @@ export default {
     },
     methods: {
       focusNoteEdit: function () {
-        this.$children[2].$refs.noteContent.focus()
+        // Move me into noteEdit.vue!
+        // This exists because otherwise the note name wont clear out quickly
+        // enough for the textarea to be focused.
+        let noteEditInput = this.$children[2].$refs.noteContent
+        setTimeout(function () {
+          noteEditInput.focus()
+        }, 1)
       },
       focusNotesList: function () {
         if (this.$children[0].$el.children[1] === document.activeElement) {
