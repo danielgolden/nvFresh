@@ -12,7 +12,7 @@
     >
       <h5 class="empty-state-header" v-if="notes.length === 0">There are no existing notes</h5>
       <select
-        size="7"
+        size="6"
         ref="filteredNoteList"
         v-if="filteredNotes.length > 0"
         @input="selectNote(filteredNotes[$refs.filteredNoteList.selectedIndex].id)"
@@ -29,7 +29,7 @@
         </option>
       </select>
       <select
-        size="7"
+        size="6"
         ref="noteList"
         :class="{'no-search-results': newNoteName.length !== 0}"
         v-if="filteredNotes.length <= 0"
