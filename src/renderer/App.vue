@@ -890,7 +890,7 @@ export default {
 }
 
 .markdown-body .task-list-item input {
-  margin: 0 0.2em 0.25em -1.6em;
+  margin: 0 0.2em 0.25em -1.35em;
   vertical-align: middle;
 }
 

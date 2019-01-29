@@ -11,6 +11,7 @@
       ref="noteContent"
       :value="currentNoteContents"
       @input="updateNoteContents"
+      :disabled="newNoteName !== '' && filteredNotes.length === 0"
     ></textarea>
   </div>
 </template>
