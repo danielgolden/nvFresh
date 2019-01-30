@@ -235,7 +235,7 @@ export default {
   font-size: 13px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   line-height: 17px;
-  height: 150px;
+  height: 125px;
   overflow: scroll;
 
   &.no-notes {
@@ -267,7 +267,7 @@ export default {
     }
 
     .note-date-modified {
-      width: 163px;
+      width: 167px;
       float: right;
       padding-right: 10px;
       text-align: left;
