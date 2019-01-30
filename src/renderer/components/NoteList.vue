@@ -6,7 +6,7 @@
     </div>
     <div
       class="note-list-container"
-      v-shortkey="{editNoteTitle: ['meta', 'r'], deleteNote: ['meta', 'd']}"
+      v-shortkey="{up: ['arrowup'], down: ['arrowdown'], editNoteTitle: ['meta', 'r'], deleteNote: ['meta', 'd']}"
       @shortkey="handleShortcuts(selectedNoteID)"
       :class="{'no-notes': notes.length === 0}"
     >
@@ -46,8 +46,10 @@
           :class="{ active: selectedNoteID === note.id }"
           :selected="selectedNoteID === note.id"
         >
-          <span class="note-name">{{ shortName(note.name) }}</span>
-          <span class="note-contents-snippet">— Nulla quis tortor orci...</span>
+          <div class="note-name-container">
+            <span class="note-name">{{ shortName(note.name) }}</span>
+            <span class="note-contents-snippet"> {{ note.contents.length > 0 ? '— ' + note.contents.substring(0, 200) : '' }}</span>
+          </div>
           <span class="note-date-modified">{{ prettyDateModified(note.dateLastModified) }}</span>
         </li>
       </ul>
@@ -84,7 +86,7 @@ export default {
     },
     selectedNoteName () {
       if (this.selectedNoteIndexInList > -1) {
-        return this.notes[this.selectedNoteIndexInList].name
+        return this.notesByDateModified[this.selectedNoteIndexInList].name
       }
     },
     newNoteName () {
@@ -103,7 +105,11 @@ export default {
     },
     selectedNoteIndexInList () {
       let currentNoteId = this.selectedNoteID
-      return this.notes.findIndex(function (note) { return note.id === currentNoteId })
+      if (this.filteredNotes.length > 0) {
+        return this.filteredNotes.findIndex(function (note) { return note.id === currentNoteId })
+      } else {
+        return this.notesByDateModified.findIndex(function (note) { return note.id === currentNoteId })
+      }
     }
   },
   methods: {
@@ -112,6 +118,36 @@ export default {
     },
     handleShortcuts: function (selectedNoteID) {
       switch (event.srcKey) {
+        case 'up':
+          if (this.newNoteName.length === 0) {
+            let prevNoteId = this.notesByDateModified[this.selectedNoteIndexInList - 1].id
+            if (prevNoteId) { // Because you might be at the end of the list when this is triggered
+              this.selectNote(prevNoteId)
+            }
+          }
+
+          if (this.newNoteName.length > 0) {
+            let prevNoteId = this.filteredNotes[this.selectedNoteIndexInList - 1].id
+            if (prevNoteId) { // Because you might be at the end of the list when this is triggered
+              this.selectNote(prevNoteId)
+            }
+          }
+          break
+        case 'down':
+          if (this.newNoteName.length === 0) {
+            let prevNoteId = this.notesByDateModified[this.selectedNoteIndexInList + 1].id
+            if (prevNoteId) { // Because you might be at the end of the list when this is triggered
+              this.selectNote(prevNoteId)
+            }
+          }
+
+          if (this.newNoteName.length > 0) {
+            let prevNoteId = this.filteredNotes[this.selectedNoteIndexInList + 1].id
+            if (prevNoteId) { // Because you might be at the end of the list when this is triggered
+              this.selectNote(prevNoteId)
+            }
+          }
+          break
         case 'deleteNote':
           this.deleteNote(selectedNoteID)
           break
@@ -252,7 +288,7 @@ export default {
     }
 
     &.active .note-date-modified {
-      background-color: transparent;
+      background-color: #2765D9;
     }
 
     &.active .note-date-modified:before {
