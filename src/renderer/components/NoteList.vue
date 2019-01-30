@@ -11,42 +11,46 @@
       :class="{'no-notes': notes.length === 0}"
     >
       <h5 class="empty-state-header" v-if="notes.length === 0">There are no existing notes</h5>
-      <select
-        size="6"
-        ref="filteredNoteList"
+
+      <ul
         v-if="filteredNotes.length > 0"
+        ref="filteredNoteList"
         @input="selectNote(filteredNotes[$refs.filteredNoteList.selectedIndex].id)"
       >
-        <option
+        <li
           v-for="filteredNote in filteredNotes"
           :key="filteredNote.id"
+          @click="selectNote(filteredNote.id)"
           :value="shortName(filteredNote.name)"
-          :data-date-modified="prettyDateModified(filteredNote.dateLastModified)"
           :class="{ active: selectedNoteID === filteredNote.id }"
           :selected="selectedNoteID === filteredNote.id"
         >
-          {{ shortName(filteredNote.name) }}
-        </option>
-      </select>
-      <select
-        size="6"
+          <div class="note-name-container">
+            <span class="note-name">{{ shortName(filteredNote.name) }}</span>
+            <span class="note-contents-snippet"> {{ filteredNote.contents.length > 0 ? '— ' + filteredNote.contents.substring(0, 200) : '' }}</span>
+          </div>
+          <span class="note-date-modified">{{ prettyDateModified(filteredNote.dateLastModified) }}</span>
+        </li>
+      </ul>
+      <ul
         ref="noteList"
         :class="{'no-search-results': newNoteName.length !== 0}"
         v-if="filteredNotes.length <= 0"
         @input="selectNote(notes[$refs.noteList.selectedIndex].id)"
       >
-        <option
+        <li
           v-for="note in notesByDateModified"
           :key="note.id"
           :value="shortName(note.name)"
-          :data-date-modified="prettyDateModified(note.dateLastModified)"
+          @click="selectNote(note.id)"
           :class="{ active: selectedNoteID === note.id }"
           :selected="selectedNoteID === note.id"
         >
-          {{ shortName(note.name) }}
-        </option>
-        <span>hi there</span>
-      </select>
+          <span class="note-name">{{ shortName(note.name) }}</span>
+          <span class="note-contents-snippet">— Nulla quis tortor orci...</span>
+          <span class="note-date-modified">{{ prettyDateModified(note.dateLastModified) }}</span>
+        </li>
+      </ul>
     </div>
 
     <div class="modal edit-name-modal" v-show="updateNoteNameModalActive">
@@ -156,8 +160,8 @@ export default {
       }
     },
     shortName (fullName) {
-      if (fullName.length > 50) {
-        return fullName.substring(0, 50) + '...'
+      if (fullName.length > 75) {
+        return fullName.substring(0, 75) + '...'
       } else {
         return fullName
       }
@@ -194,7 +198,9 @@ export default {
   margin: 1px 0 -3px;
   font-size: 13px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  line-height: 21px;
+  line-height: 17px;
+  height: 150px;
+  overflow: scroll;
 
   &.no-notes {
     position: relative;
@@ -211,30 +217,80 @@ export default {
     }
   }
 
-  option {
-    padding: 2px 10px;
+  ul {
+    display: flex;
+    flex-direction: column;
+  }
+
+  li {
+    padding: 1.5px 0px 1.5px 10px;
+    overflow: hidden;
 
     &:hover {
       cursor: default;
     }
 
-    &:after {
-      content: attr(data-date-modified);
-      width: 153px;
+    .note-date-modified {
+      width: 163px;
       float: right;
+      padding-right: 10px;
       text-align: left;
       color: rgba(0,0,0, .4);
-      transition: color 1s ease-out;
+      background-color: #fff;
+      position: relative;
+      z-index: 10;
+
+      &:before {
+        content: "";
+        width:105px;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: -105px;
+        background-image: linear-gradient(to right, rgba(255,255,255, .0), rgba(255,255,255, 1) 90%)
+      }
     }
 
-    &.active:after {
-      color: rgba(255,255,255, .7);
+    &.active .note-date-modified {
+      background-color: transparent;
+    }
+
+    &.active .note-date-modified:before {
+      background-image: linear-gradient(to right, rgba(39, 101, 217, 0), #2765D9 90%);
+    }
+
+    .note-contents-snippet {
+      text-align: left;
+      color: rgba(0,0,0, .4);
+    }
+
+    &.active .note-contents-snippet {
+      color: rgba(255,255,255, .4);
+    }
+
+    &.active .note-date-modified {
+      color: rgba(255,255,255, .6);
+    }
+
+    &.active {
+      color: #fff;
+      background-color: #2765D9;
     }
   }
 
   select:not(:focus) .active:after {
     color: rgba(0,0,0, .5);
   }
+
+  li {
+    padding-left: 10px;
+  }
+}
+
+.note-name-container {
+    display: inline-block;
+    white-space: nowrap;
+    width: 300px;
 }
 
 .column-labels {
