@@ -278,11 +278,11 @@ export default {
 
       &:before {
         content: "";
-        width:105px;
+        width:85px;
         position: absolute;
         top: 0;
         bottom: 0;
-        left: -105px;
+        left: -85px;
         background-image: linear-gradient(to right, rgba(255,255,255, .0), rgba(255,255,255, 1) 90%)
       }
     }
@@ -326,7 +326,7 @@ export default {
 .note-name-container {
     display: inline-block;
     white-space: nowrap;
-    width: 300px;
+    width: 10%;
 }
 
 .column-labels {
