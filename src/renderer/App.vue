@@ -1,7 +1,6 @@
 <template>
   <div
     id="app"
-    @keydown.prevent.40="focusNotesList"
     :class="{'md-preview-active': mdPreviewLive}"
     v-shortkey="{getInfo: ['meta', 'i'], mdPreview: ['meta', 'shift', 'p']}"
     @shortkey="handleShortcuts()"
@@ -128,12 +127,6 @@ export default {
         setTimeout(function () {
           noteEditInput.focus()
         }, 1)
-      },
-      focusNotesList: function () {
-        if (this.$children[0].$el.children[1] === document.activeElement) {
-          this.$children[1].$refs.noteListContainer.focus()
-          this.$children[1].$refs.filteredNoteList.selectedIndex = 0
-        }
       },
       handleShortcuts: function () {
         switch (event.srcKey) {
