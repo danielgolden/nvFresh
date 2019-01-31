@@ -76,10 +76,8 @@ export default {
       this.$refs['searchInput'].select()
     },
     focusNotesList: function () {
-      if (this.newNoteName.length === 0) {
-        this.$parent.$children[1].$refs.noteListContainer.focus()
-        this.$parent.$children[1].downArrow()
-      }
+      this.$parent.$children[1].$refs.noteListContainer.focus()
+      this.$parent.$children[1].downArrow()
     }
   }
 }

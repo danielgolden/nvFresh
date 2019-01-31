@@ -19,6 +19,7 @@
       <ul
         v-if="filteredNotes.length > 0"
         ref="filteredNoteList"
+        class="filteredNoteList"
         @input="selectNote(filteredNotes[$refs.filteredNoteList.selectedIndex].id)"
       >
         <li
@@ -36,10 +37,10 @@
           <span class="note-date-modified">{{ prettyDateModified(filteredNote.dateLastModified) }}</span>
         </li>
       </ul>
-      <ul
+      <!-- <ul
         ref="noteList"
-        :class="{'no-search-results': newNoteName.length !== 0}"
-        v-if="filteredNotes.length <= 0"
+        :class="{'noteList': true,'no-search-results': newNoteName.length !== 0}"
+        v-if="newNoteName.legnfilteredNotes.length === 0"
         @input="selectNote(notes[$refs.noteList.selectedIndex].id)"
       >
         <li
@@ -56,7 +57,7 @@
           </div>
           <span class="note-date-modified">{{ prettyDateModified(note.dateLastModified) }}</span>
         </li>
-      </ul>
+      </ul> -->
     </div>
 
     <div class="modal edit-name-modal" v-show="updateNoteNameModalActive">
