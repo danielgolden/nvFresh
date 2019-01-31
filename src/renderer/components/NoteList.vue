@@ -6,9 +6,13 @@
     </div>
     <div
       class="note-list-container"
-      v-shortkey="{up: ['arrowup'], down: ['arrowdown'], editNoteTitle: ['meta', 'r'], deleteNote: ['meta', 'd']}"
+      v-shortkey="{editNoteTitle: ['meta', 'r'], deleteNote: ['meta', 'd']}"
       @shortkey="handleShortcuts(selectedNoteID)"
       :class="{'no-notes': notes.length === 0}"
+      tabindex="9"
+      @keydown.prevent.38="upArrow"
+      @keydown.prevent.40="downArrow"
+      ref="noteListContainer"
     >
       <h5 class="empty-state-header" v-if="notes.length === 0">There are no existing notes</h5>
 
@@ -116,38 +120,38 @@ export default {
     selectNote: function (id) {
       this.$store.commit('selectNote', id)
     },
+    upArrow: function () {
+      if (this.newNoteName.length === 0) {
+        let prevNoteId = this.notesByDateModified[this.selectedNoteIndexInList - 1].id
+        if (prevNoteId) { // Because you might be at the end of the list when this is triggered
+          this.selectNote(prevNoteId)
+        }
+      }
+
+      if (this.newNoteName.length > 0) {
+        let prevNoteId = this.filteredNotes[this.selectedNoteIndexInList - 1].id
+        if (prevNoteId) { // Because you might be at the end of the list when this is triggered
+          this.selectNote(prevNoteId)
+        }
+      }
+    },
+    downArrow: function () {
+      if (this.newNoteName.length === 0) {
+        let prevNoteId = this.notesByDateModified[this.selectedNoteIndexInList + 1].id
+        if (prevNoteId) { // Because you might be at the end of the list when this is triggered
+          this.selectNote(prevNoteId)
+        }
+      }
+
+      if (this.newNoteName.length > 0) {
+        let prevNoteId = this.filteredNotes[this.selectedNoteIndexInList + 1].id
+        if (prevNoteId) { // Because you might be at the end of the list when this is triggered
+          this.selectNote(prevNoteId)
+        }
+      }
+    },
     handleShortcuts: function (selectedNoteID) {
       switch (event.srcKey) {
-        case 'up':
-          if (this.newNoteName.length === 0) {
-            let prevNoteId = this.notesByDateModified[this.selectedNoteIndexInList - 1].id
-            if (prevNoteId) { // Because you might be at the end of the list when this is triggered
-              this.selectNote(prevNoteId)
-            }
-          }
-
-          if (this.newNoteName.length > 0) {
-            let prevNoteId = this.filteredNotes[this.selectedNoteIndexInList - 1].id
-            if (prevNoteId) { // Because you might be at the end of the list when this is triggered
-              this.selectNote(prevNoteId)
-            }
-          }
-          break
-        case 'down':
-          if (this.newNoteName.length === 0) {
-            let prevNoteId = this.notesByDateModified[this.selectedNoteIndexInList + 1].id
-            if (prevNoteId) { // Because you might be at the end of the list when this is triggered
-              this.selectNote(prevNoteId)
-            }
-          }
-
-          if (this.newNoteName.length > 0) {
-            let prevNoteId = this.filteredNotes[this.selectedNoteIndexInList + 1].id
-            if (prevNoteId) { // Because you might be at the end of the list when this is triggered
-              this.selectNote(prevNoteId)
-            }
-          }
-          break
         case 'deleteNote':
           this.deleteNote(selectedNoteID)
           break
@@ -237,6 +241,7 @@ export default {
   line-height: 17px;
   height: 125px;
   overflow: scroll;
+  outline: none;
 
   &.no-notes {
     position: relative;
@@ -297,7 +302,7 @@ export default {
 
     .note-contents-snippet {
       text-align: left;
-      color: rgba(0,0,0, .4);
+      color: rgba(0,0,0, .25);
     }
 
     &.active .note-contents-snippet {
