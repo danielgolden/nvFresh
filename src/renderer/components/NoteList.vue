@@ -156,7 +156,7 @@ export default {
         this.ActiveNoteIsAtBottom = true
       }
 
-      if (this.isSelectedNoteInView('top') <= 5) {
+      if (this.isSelectedNoteInView('top') <= 20) {
         this.$refs.noteListContainer.scrollTo(0, document.querySelector('.active').offsetTop - this.$refs.noteListContainer.offsetTop - 20)
       }
     },
@@ -175,7 +175,9 @@ export default {
         }
       }
 
-      if (this.isSelectedNoteInView('bottom') <= 5) {
+      if (this.isSelectedNoteInView('bottom') <= 20) {
+        // I think 123 is the .note-list-container height
+        // It will be important to adjust this if that ever changes
         this.$refs.noteListContainer.scrollTo(0, document.querySelector('.active').offsetTop - this.$refs.noteListContainer.offsetTop + 43 - 123)
       }
     },

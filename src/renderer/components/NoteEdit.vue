@@ -84,6 +84,7 @@ export default {
   display: flex;
   height: 100%;
   position: relative;
+  z-index: 10;
 
   &.no-notes {
     height: 100%;
