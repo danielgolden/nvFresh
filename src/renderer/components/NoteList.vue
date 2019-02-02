@@ -29,6 +29,7 @@
           :value="shortName(filteredNote.name)"
           :class="{ active: selectedNoteID === filteredNote.id }"
           :selected="selectedNoteID === filteredNote.id"
+          :ref="selectedNoteID === filteredNote.id ? 'activeNote' : ''"
         >
           <div class="note-name-container">
             <span class="note-name">{{ shortName(filteredNote.name) }}</span>
@@ -76,7 +77,8 @@ export default {
   data () {
     return {
       updateNoteNameModalActive: false,
-      renameNoteTo: ''
+      renameNoteTo: '',
+      ActiveNoteIsAtBottom: false
     }
   },
   computed: {
@@ -121,6 +123,20 @@ export default {
     selectNote: function (id) {
       this.$store.commit('selectNote', id)
     },
+    isSelectedNoteInView (side) {
+      let parentPos = document.querySelector('li.active').getBoundingClientRect()
+      let childrenPos = document.querySelector('.note-list-container').getBoundingClientRect()
+      let relativePos = {}
+
+      relativePos.top = parentPos.top - childrenPos.top
+      relativePos.bottom = childrenPos.bottom - parentPos.bottom
+
+      if (side === 'top') {
+        return relativePos.top
+      } else if (side === 'bottom') {
+        return relativePos.bottom
+      }
+    },
     upArrow: function () {
       if (this.newNoteName.length === 0) {
         let prevNoteId = this.notesByDateModified[this.selectedNoteIndexInList - 1].id
@@ -134,6 +150,14 @@ export default {
         if (prevNoteId) { // Because you might be at the end of the list when this is triggered
           this.selectNote(prevNoteId)
         }
+      }
+
+      if (document.querySelector('.active').offsetTop - this.$refs.noteListContainer.offsetTop < 0) {
+        this.ActiveNoteIsAtBottom = true
+      }
+
+      if (this.isSelectedNoteInView('top') <= 5) {
+        this.$refs.noteListContainer.scrollTo(0, document.querySelector('.active').offsetTop - this.$refs.noteListContainer.offsetTop - 20)
       }
     },
     downArrow: function () {
@@ -149,6 +173,10 @@ export default {
         if (prevNoteId) { // Because you might be at the end of the list when this is triggered
           this.selectNote(prevNoteId)
         }
+      }
+
+      if (this.isSelectedNoteInView('bottom') <= 5) {
+        this.$refs.noteListContainer.scrollTo(0, document.querySelector('.active').offsetTop - this.$refs.noteListContainer.offsetTop + 43 - 123)
       }
     },
     handleShortcuts: function (selectedNoteID) {
@@ -240,7 +268,7 @@ export default {
   font-size: 13px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   line-height: 17px;
-  height: 125px;
+  height: 123px;
   overflow: scroll;
   outline: none;
 
