@@ -6,15 +6,20 @@
     </div>
     <div
       class="note-list-container"
-      v-shortkey="{up: ['arrowup'], down: ['arrowdown'], editNoteTitle: ['meta', 'r'], deleteNote: ['meta', 'd']}"
+      v-shortkey="{editNoteTitle: ['meta', 'r'], deleteNote: ['meta', 'd']}"
       @shortkey="handleShortcuts(selectedNoteID)"
       :class="{'no-notes': notes.length === 0}"
+      tabindex="9"
+      @keydown.prevent.38="upArrow"
+      @keydown.prevent.40="downArrow"
+      ref="noteListContainer"
     >
       <h5 class="empty-state-header" v-if="notes.length === 0">There are no existing notes</h5>
 
       <ul
         v-if="filteredNotes.length > 0"
         ref="filteredNoteList"
+        class="filteredNoteList"
         @input="selectNote(filteredNotes[$refs.filteredNoteList.selectedIndex].id)"
       >
         <li
@@ -24,6 +29,7 @@
           :value="shortName(filteredNote.name)"
           :class="{ active: selectedNoteID === filteredNote.id }"
           :selected="selectedNoteID === filteredNote.id"
+          :ref="selectedNoteID === filteredNote.id ? 'activeNote' : ''"
         >
           <div class="note-name-container">
             <span class="note-name">{{ shortName(filteredNote.name) }}</span>
@@ -32,10 +38,10 @@
           <span class="note-date-modified">{{ prettyDateModified(filteredNote.dateLastModified) }}</span>
         </li>
       </ul>
-      <ul
+      <!-- <ul
         ref="noteList"
-        :class="{'no-search-results': newNoteName.length !== 0}"
-        v-if="filteredNotes.length <= 0"
+        :class="{'noteList': true,'no-search-results': newNoteName.length !== 0}"
+        v-if="newNoteName.legnfilteredNotes.length === 0"
         @input="selectNote(notes[$refs.noteList.selectedIndex].id)"
       >
         <li
@@ -52,7 +58,7 @@
           </div>
           <span class="note-date-modified">{{ prettyDateModified(note.dateLastModified) }}</span>
         </li>
-      </ul>
+      </ul> -->
     </div>
 
     <div class="modal edit-name-modal" v-show="updateNoteNameModalActive">
@@ -71,7 +77,8 @@ export default {
   data () {
     return {
       updateNoteNameModalActive: false,
-      renameNoteTo: ''
+      renameNoteTo: '',
+      ActiveNoteIsAtBottom: false
     }
   },
   computed: {
@@ -116,38 +123,66 @@ export default {
     selectNote: function (id) {
       this.$store.commit('selectNote', id)
     },
+    isSelectedNoteInView (side) {
+      let parentPos = document.querySelector('li.active').getBoundingClientRect()
+      let childrenPos = document.querySelector('.note-list-container').getBoundingClientRect()
+      let relativePos = {}
+
+      relativePos.top = parentPos.top - childrenPos.top
+      relativePos.bottom = childrenPos.bottom - parentPos.bottom
+
+      if (side === 'top') {
+        return relativePos.top
+      } else if (side === 'bottom') {
+        return relativePos.bottom
+      }
+    },
+    upArrow: function () {
+      if (this.newNoteName.length === 0) {
+        let prevNoteId = this.notesByDateModified[this.selectedNoteIndexInList - 1].id
+        if (prevNoteId) { // Because you might be at the end of the list when this is triggered
+          this.selectNote(prevNoteId)
+        }
+      }
+
+      if (this.newNoteName.length > 0) {
+        let prevNoteId = this.filteredNotes[this.selectedNoteIndexInList - 1].id
+        if (prevNoteId) { // Because you might be at the end of the list when this is triggered
+          this.selectNote(prevNoteId)
+        }
+      }
+
+      if (document.querySelector('.active').offsetTop - this.$refs.noteListContainer.offsetTop < 0) {
+        this.ActiveNoteIsAtBottom = true
+      }
+
+      if (this.isSelectedNoteInView('top') <= 20) {
+        this.$refs.noteListContainer.scrollTo(0, document.querySelector('.active').offsetTop - this.$refs.noteListContainer.offsetTop - 20)
+      }
+    },
+    downArrow: function () {
+      if (this.newNoteName.length === 0) {
+        let prevNoteId = this.notesByDateModified[this.selectedNoteIndexInList + 1].id
+        if (prevNoteId) { // Because you might be at the end of the list when this is triggered
+          this.selectNote(prevNoteId)
+        }
+      }
+
+      if (this.newNoteName.length > 0) {
+        let prevNoteId = this.filteredNotes[this.selectedNoteIndexInList + 1].id
+        if (prevNoteId) { // Because you might be at the end of the list when this is triggered
+          this.selectNote(prevNoteId)
+        }
+      }
+
+      if (this.isSelectedNoteInView('bottom') <= 20) {
+        // I think 123 is the .note-list-container height
+        // It will be important to adjust this if that ever changes
+        this.$refs.noteListContainer.scrollTo(0, document.querySelector('.active').offsetTop - this.$refs.noteListContainer.offsetTop + 43 - 123)
+      }
+    },
     handleShortcuts: function (selectedNoteID) {
       switch (event.srcKey) {
-        case 'up':
-          if (this.newNoteName.length === 0) {
-            let prevNoteId = this.notesByDateModified[this.selectedNoteIndexInList - 1].id
-            if (prevNoteId) { // Because you might be at the end of the list when this is triggered
-              this.selectNote(prevNoteId)
-            }
-          }
-
-          if (this.newNoteName.length > 0) {
-            let prevNoteId = this.filteredNotes[this.selectedNoteIndexInList - 1].id
-            if (prevNoteId) { // Because you might be at the end of the list when this is triggered
-              this.selectNote(prevNoteId)
-            }
-          }
-          break
-        case 'down':
-          if (this.newNoteName.length === 0) {
-            let prevNoteId = this.notesByDateModified[this.selectedNoteIndexInList + 1].id
-            if (prevNoteId) { // Because you might be at the end of the list when this is triggered
-              this.selectNote(prevNoteId)
-            }
-          }
-
-          if (this.newNoteName.length > 0) {
-            let prevNoteId = this.filteredNotes[this.selectedNoteIndexInList + 1].id
-            if (prevNoteId) { // Because you might be at the end of the list when this is triggered
-              this.selectNote(prevNoteId)
-            }
-          }
-          break
         case 'deleteNote':
           this.deleteNote(selectedNoteID)
           break
@@ -235,8 +270,9 @@ export default {
   font-size: 13px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   line-height: 17px;
-  height: 125px;
+  height: 123px;
   overflow: scroll;
+  outline: none;
 
   &.no-notes {
     position: relative;
@@ -297,7 +333,7 @@ export default {
 
     .note-contents-snippet {
       text-align: left;
-      color: rgba(0,0,0, .4);
+      color: rgba(0,0,0, .25);
     }
 
     &.active .note-contents-snippet {

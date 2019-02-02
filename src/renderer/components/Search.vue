@@ -12,6 +12,7 @@
       @input="updateNoteName"
       ref="searchInput"
       @keyup.enter="createNote"
+      @keydown.prevent.40="focusNotesList"
       v-shortkey="['meta', 'l']"
       @shortkey="selectQuery()"
     />
@@ -74,8 +75,9 @@ export default {
     selectQuery: function () {
       this.$refs['searchInput'].select()
     },
-    focusNoteList: function () {
-      this.$emit('downArrowFromSearch')
+    focusNotesList: function () {
+      this.$parent.$children[1].$refs.noteListContainer.focus()
+      this.$parent.$children[1].downArrow()
     }
   }
 }
