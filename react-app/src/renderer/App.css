@@ -1,0 +1,57 @@
+/*
+ * @NOTE: Prepend a `~` to css file paths that are in your node_modules
+ *        See https://github.com/webpack-contrib/sass-loader#imports
+ */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.cm-container {
+  height: 100%;
+}
+
+.cm-editor {
+  padding: 16px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
+  transition: all 0.075s ease-out;
+}
+
+.form-container .cm-focused.ͼ1.cm-editor {
+  box-shadow: inset 0 0 0 1px rgba(0 100 200 / 70%),
+    0 0 0 4px rgba(0 100 200 / 10%);
+  outline: none;
+}
+
+.cm-editor .cm-content {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  font-size: 18px;
+  line-height: 150%;
+}
+
+.ͼ1 .cm-gutters,
+.ͼ2 .cm-gutters {
+  display: none;
+}
